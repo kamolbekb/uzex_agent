@@ -131,7 +131,7 @@ def create_web_app(
 async def start_web_server(
     get_orchestrator_fn: Callable[[], AgentOrchestrator],
     semaphore: asyncio.Semaphore | None = None,
-    host: str = "192.168.0.243",
+    host: str = "0.0.0.0",
     port: int = 8080,
 ) -> web.AppRunner:
     """Start the aiohttp web server in the current event loop and return its AppRunner."""
@@ -151,7 +151,7 @@ async def _standalone_main() -> None:
     )
     load_dotenv(PROJECT_ROOT / ".env")
     port = int(os.getenv("WEB_PORT", os.getenv("PORT", "8080")))
-    host = os.getenv("WEB_HOST", "192.168.0.243")
+    host = os.getenv("WEB_HOST", "0.0.0.0")
     orch = AgentOrchestrator(use_cache=True)
     runner = await start_web_server(lambda: orch, host=host, port=port)
     try:

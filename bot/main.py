@@ -195,7 +195,7 @@ async def main() -> None:
 
     # Start Web UI & HTTP API server alongside Telegram polling
     web_port = int(os.getenv("WEB_PORT", os.getenv("PORT", "8080")))
-    web_host = os.getenv("WEB_HOST", "192.168.0.243")
+    web_host = os.getenv("WEB_HOST", "0.0.0.0")
     web_runner = await start_web_server(
         get_orchestrator,
         semaphore=GLOBAL_SEMAPHORE,
