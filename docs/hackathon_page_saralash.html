@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saralash bosqichi — UZEX AI Hackathon 2026</title>
+<meta name="description" content="UZEX AI Hackathon saralash bosqichi: birja bitimlari haqidagi savollarga faqat maʼlumotlar asosida javob beradigan AI-agent yarating. Prototipni 5-noyabr soat 18:00 gacha topshiring.">
+<meta name="theme-color" content="#0C1033">
+<link rel="canonical" href="https://hackathon.uzex.uz/saralash/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="UZEX AI Hackathon 2026">
+<meta property="og:title" content="Saralash bosqichi — UZEX AI Hackathon 2026">
+<meta property="og:description" content="Birja bitimlari haqidagi savollarga aniq va faqat maʼlumotlar asosida javob beradigan AI-agent yarating.">
+<meta property="og:url" content="https://hackathon.uzex.uz/saralash/">
+<meta property="og:image" content="https://hackathon.uzex.uz/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="uz_UZ">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link href="../fonts/fonts.css" rel="stylesheet">
+<style>
+/* UZEX AI Hackathon 2026 — qualifying round page. Same brand system as the main page:
+   ink #0C1033 · neon #3DF08A · blues #3A55C8 / #5E79E8 / #26398F · periwinkle #C9D3FF / #AEBCF3
+   Onest for text, IBM Plex Mono uppercase for labels, "plashka" headline blocks, pixel mosaics. */
+:root{--ink:#0C1033;--ink2:#121A4E;--ink3:#18215C;--neon:#3DF08A;--blue:#3A55C8;--blue-l:#5E79E8;--blue-d:#26398F;--peri:#C9D3FF;--peri-l:#AEBCF3;--line:rgba(201,211,255,.14);--line2:rgba(201,211,255,.32);--ease:cubic-bezier(.16,1,.3,1);
+  --fx:max(0rem,calc((100vw - 160rem) / 2));--gut:clamp(1.25rem,4vw,6.5rem)}
+*{box-sizing:border-box}
+html{font-size:100%;scroll-behavior:smooth;scroll-padding-top:6rem;background:#0C1033}
+body{margin:0;background:#0C1033;color:#FFFFFF;-webkit-font-smoothing:antialiased;overflow-x:clip;font-family:'Onest',system-ui,sans-serif;font-size:1rem;line-height:1.55}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;margin:0;padding:0;border-radius:0;-webkit-appearance:none;appearance:none;cursor:pointer}
+h1,h2,h3,p,ol,ul{margin:0;font-weight:inherit}
+ol,ul{padding:0;list-style:none}
+p{text-wrap:pretty}
+img{display:block}
+::selection{background:#3DF08A;color:#0C1033}
+:focus-visible{outline:0.125rem solid #3DF08A;outline-offset:0.1875rem}
+.nw{white-space:nowrap}
+.vh{position:absolute;width:0.0625rem;height:0.0625rem;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* type */
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:500;font-size:0.75rem;line-height:1.45;letter-spacing:.04em;text-transform:uppercase;color:var(--peri-l)}
+.txt{font-size:0.9375rem;line-height:1.6;color:var(--peri-l)}
+.txt b,.txt strong{color:#FFFFFF;font-weight:600}
+.pl{display:inline-block;font-weight:600;line-height:1;letter-spacing:-.03em;white-space:nowrap;padding:.1145em .28em .0725em}
+@supports (text-box:trim-both cap alphabetic){.pl{text-box:trim-both cap alphabetic;padding:.24em .28em}}
+.bg-w{background:#FFFFFF;color:#0C1033}
+.bg-n{background:#3DF08A;color:#0C1033}
+.bg-b{background:#3A55C8;color:#FFFFFF}
+.bg-p{background:#C9D3FF;color:#0C1033}
+.plr{display:flex;align-items:stretch}
+.tag{display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.7812rem;line-height:1;letter-spacing:.03em;padding:0.375rem 0.4375rem;white-space:nowrap;text-transform:uppercase}
+.tag.o{color:#FFFFFF;box-shadow:inset 0 0 0 0.0938rem var(--line2)}
+
+/* buttons */
+.btn{position:relative;display:inline-flex;align-items:center;gap:0.75rem;font-family:'Onest',sans-serif;font-weight:600;font-size:1rem;line-height:1;letter-spacing:-.01em;padding:1.125rem 1.5rem;white-space:nowrap;transition:background-color .25s var(--ease),color .25s var(--ease),box-shadow .25s var(--ease)}
+.btn .ar{display:inline-block;transition:transform .35s var(--ease)}
+.btn:hover .ar{transform:translateX(0.3125rem)}
+.btn .ar.dn{transform:none}
+.btn:hover .ar.dn{transform:translateY(0.1875rem)}
+.btn-n{background:#3DF08A;color:#0C1033}
+.btn-n:hover{background:#FFFFFF}
+.btn-g{color:#FFFFFF;box-shadow:inset 0 0 0 0.0938rem rgba(201,211,255,.38)}
+.btn-g:hover{color:#3DF08A;box-shadow:inset 0 0 0 0.0938rem #3DF08A}
+.btn-s{font-size:0.875rem;padding:0.75rem 1rem;gap:0.625rem}
+/* a button whose link is not live yet (data folder before 18:00, form after the deadline) */
+.btn.off{pointer-events:none;background:transparent;color:var(--peri-l);box-shadow:inset 0 0 0 0.0938rem var(--line2)}
+.btn.off .ar{display:none}
+.btn .lock{display:none;width:0.75rem;height:0.75rem;flex:none;background:currentColor;-webkit-mask:var(--lock) center/contain no-repeat;mask:var(--lock) center/contain no-repeat}
+.btn.off .lock{display:block}
+:root{--lock:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6' shape-rendering='crispEdges'%3E%3Cpath d='M2 0h2v1H2zM1 1h1v2H1zM4 1h1v2H4zM0 3h6v3H0z'/%3E%3C/svg%3E")}
+.btn-sub{display:block;margin-top:0.5rem;font-size:0.6875rem}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;gap:1rem;padding:1rem calc(var(--fx) + var(--gut));background:linear-gradient(rgba(12,16,51,.94) 40%,rgba(12,16,51,0));transition:background-color .3s,box-shadow .3s,padding .3s}
+.nav.solid{background:rgba(12,16,51,.9);-webkit-backdrop-filter:blur(0.75rem);backdrop-filter:blur(0.75rem);padding-top:0.75rem;padding-bottom:0.75rem;box-shadow:0 0.0625rem 0 var(--line)}
+.brand{display:flex;align-items:center;gap:0.625rem;flex:none}
+.mark{height:clamp(2.125rem,3vw,2.625rem);aspect-ratio:1;background:linear-gradient(90deg,#00C46A 50%,#3DF08A 50%) top/100% 50% no-repeat,linear-gradient(90deg,#5E79E8 50%,#3A55C8 50%) bottom/100% 50% no-repeat}
+.wm{height:clamp(1.875rem,2.67vw,2.375rem);width:auto}
+.nav-l{display:flex;align-items:center;gap:clamp(1rem,1.8vw,1.875rem);margin-left:clamp(1.5rem,3vw,3rem)}
+.nav-l a{font-size:0.9375rem;font-weight:500;color:rgba(255,255,255,.7);padding:0.625rem 0;white-space:nowrap;transition:color .2s}
+.nav-l a:hover{color:#3DF08A}
+.nav-l a.on{color:#FFFFFF}
+.nav-r{display:flex;align-items:center;gap:clamp(0.625rem,1.2vw,1rem);margin-left:auto}
+.nav-tg{display:flex;align-items:center;gap:0.5rem;font-size:0.9375rem;font-weight:500;color:#5E79E8;white-space:nowrap;padding:0.625rem 0;transition:color .2s}
+.nav-tg:hover{color:#AEBCF3}
+.nav-tg img{width:1.125rem;height:1.125rem;flex:none}
+.lang{position:relative}
+.lang-b{display:flex;align-items:center;gap:0.5625rem;padding:0.6875rem 0.625rem;color:#FFFFFF;transition:color .2s}
+.lang-b:hover{color:#3DF08A}
+.caret{display:block;width:0.4375rem;height:0.4375rem;border-right:0.0938rem solid currentColor;border-bottom:0.0938rem solid currentColor;transform:translateY(-0.125rem) rotate(45deg);transition:transform .3s var(--ease)}
+.lang.open .caret{transform:translateY(0.125rem) rotate(225deg)}
+.lang-m{position:absolute;top:100%;right:0;min-width:7.5rem;background:var(--ink2);display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateY(-0.5rem);transition:opacity .2s,transform .3s var(--ease),visibility 0s linear .3s;box-shadow:0 1.125rem 2.5rem rgba(6,8,30,.55),inset 0 0 0 0.0625rem var(--line)}
+.lang.open .lang-m{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.lang-m button{padding:0.75rem 1rem;text-align:left;transition:background-color .18s,color .18s}
+.lang-m button[aria-current="true"]{color:#3DF08A}
+.lang-m button:hover,.lang-m button:focus-visible{background:#3DF08A;color:#0C1033}
+.back{display:inline-flex;align-items:center;gap:0.5rem;transition:color .2s}
+.back:hover{color:#3DF08A}
+
+/* hero */
+.wrap{padding:0 calc(var(--fx) + var(--gut))}
+.hero{position:relative;padding-top:clamp(7.5rem,17vh,10.5rem);padding-bottom:clamp(3.5rem,9vh,6rem);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:clamp(1.75rem,3.4vw,4rem);align-items:center}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem 0.875rem}
+.h1{margin-top:clamp(1.125rem,2.6vh,1.625rem);font-size:clamp(3.25rem,min(7.4vw,12vh),8.25rem);display:flex;flex-direction:column;align-items:flex-start;font-weight:600}
+.h1 .s{padding-left:.62em}
+.hero-p{margin-top:clamp(1.375rem,3.6vh,2.25rem);font-size:clamp(1.125rem,1.6vw,1.5rem);font-weight:500;line-height:1.38;letter-spacing:-.012em;max-width:31ch}
+.info{margin-top:clamp(1.375rem,3.4vh,2rem);display:flex;flex-wrap:wrap;gap:0.75rem 0}
+.info > div{padding-right:clamp(1rem,1.7vw,1.625rem)}
+.info > div + div{padding-left:clamp(1rem,1.7vw,1.625rem);box-shadow:inset 0.0625rem 0 0 var(--line2)}
+.info .mono{font-size:0.6875rem}
+.info-v{margin-top:0.4375rem;font-size:0.9375rem;font-weight:600;line-height:1.2;color:#3DF08A;white-space:nowrap}
+.info > div.past .info-v{color:var(--peri-l)}
+.ctas{margin-top:clamp(1.5rem,3.6vh,2.25rem);display:flex;gap:0.75rem;flex-wrap:wrap;align-items:flex-start}
+.ctas > div{display:flex;flex-direction:column}
+@keyframes blink{50%{opacity:.25}}
+
+/* hero illustration: the data as a 0/1 mosaic, a scan, and the two kinds of answer */
+.ill{position:relative;justify-self:end;width:100%;max-width:37.5rem}
+.ill-cap{display:flex;justify-content:space-between;gap:0.75rem;margin-bottom:0.75rem}
+.ill-grid{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:0.1875rem}
+.ill-grid i{display:flex;align-items:center;justify-content:center;aspect-ratio:1;font-family:'IBM Plex Mono',monospace;font-style:normal;font-size:clamp(0.5625rem,.92vw,0.9375rem);font-weight:600;color:rgba(201,211,255,.42);background:rgba(201,211,255,.05);transition:background-color .35s linear,color .35s linear}
+.ill-grid i.scan{background:rgba(255,255,255,.88);color:#0C1033;transition:none}
+.ill-grid i.hit{background:#3DF08A;color:#0C1033}
+.ill-grid i.dim{color:rgba(201,211,255,.2)}
+.ill-ans{margin-top:1rem;display:grid;gap:0.5rem}
+.ans{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0.875rem;align-items:center;background:var(--ink2);padding:0.875rem 1rem;opacity:.35;transform:translateY(0.375rem);transition:opacity .5s var(--ease),transform .6s var(--ease),background-color .4s}
+.ans.on{opacity:1;transform:none;background:var(--ink3)}
+.ans-i{flex:none}
+.ans-i b{display:block}
+.ans-t{font-size:0.9375rem;font-weight:600;line-height:1.25}
+.ans .mono{margin-top:0.25rem;font-size:0.6562rem}
+
+/* page body: sticky contents on the left, sections on the right */
+.body{display:grid;grid-template-columns:17rem minmax(0,1fr);gap:clamp(2.5rem,6vw,7rem);align-items:start;padding-bottom:clamp(4rem,10vh,7.5rem)}
+.toc{position:sticky;top:7rem;display:flex;flex-direction:column;gap:1.75rem;max-height:calc(100vh - 8rem);overflow-y:auto;scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+@media (max-height:780px){.toc{gap:1rem}.toc ol a{padding-top:0.25rem;padding-bottom:0.25rem}.dl-d{display:none}}
+.toc ol{display:flex;flex-direction:column;border-left:0.0625rem solid var(--line)}
+.toc ol a{display:flex;gap:0.75rem;align-items:baseline;padding:0.5rem 0 0.5rem 1.125rem;margin-left:-0.0625rem;border-left:0.125rem solid transparent;font-size:0.875rem;font-weight:500;color:rgba(255,255,255,.62);transition:color .2s,border-color .2s}
+.toc ol a .mono{font-size:0.6562rem;color:inherit;opacity:.7}
+.toc ol a:hover{color:#FFFFFF}
+.toc ol a.on{color:#FFFFFF;border-left-color:#3DF08A}
+.toc ol a.on .mono{color:#3DF08A;opacity:1}
+.dl{background:var(--ink2);padding:1.125rem;display:flex;flex-direction:column}
+.dl-d{margin-top:0.5rem;font-size:0.8438rem;line-height:1.5;color:#FFFFFF}
+.dl .btn{margin-top:0.625rem;width:100%;justify-content:space-between;font-size:0.8438rem;padding:0.75rem 0.875rem}
+.dl .btn:first-of-type{margin-top:1rem}
+.dl .btn-sub{margin-top:0.5rem}
+
+.sec{padding-top:clamp(3.5rem,9vh,6rem);max-width:51.25rem}
+.sec:first-child{padding-top:0}
+.sec-n{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.125rem}
+.sec-n i{flex:1;max-width:7.5rem;height:0.25rem;background:linear-gradient(90deg,rgba(201,211,255,.22) 0.25rem,transparent 0.25rem) 0 50%/0.5rem 0.25rem repeat-x}
+.h2{font-size:clamp(2.125rem,min(4.2vw,7.4vh),4rem);display:flex;flex-direction:column;align-items:flex-start;font-weight:600}
+.h2 .s{padding-left:.9em}
+.lead{margin-top:clamp(1.125rem,2.6vh,1.625rem);font-size:clamp(1.0625rem,1.4vw,1.3125rem);font-weight:500;line-height:1.42;letter-spacing:-.01em;max-width:46ch}
+.sec .txt{margin-top:1rem;max-width:64ch}
+
+/* about: three numbers */
+.nums{margin-top:clamp(1.5rem,3.6vh,2.25rem);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.5rem}
+.num{background:var(--ink2);padding:clamp(1rem,1.8vw,1.375rem)}
+.num-v{font-size:clamp(1.875rem,3vw,2.75rem);font-weight:600;line-height:1;letter-spacing:-.03em;white-space:nowrap}
+.num-v small{font-size:.5em;letter-spacing:-.01em;margin-left:.1em}
+.num.hl{background:#3A55C8}
+.num.hl .mono{color:#FFFFFF}
+.num .mono{margin-top:0.625rem;font-size:0.6875rem}
+
+/* task */
+.chips{margin-top:1.25rem;display:flex;flex-wrap:wrap;gap:0.5rem}
+.cards{margin-top:clamp(1.25rem,3vh,1.75rem);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.5rem}
+.card{background:var(--ink2);padding:clamp(1.125rem,1.9vw,1.5rem);display:flex;flex-direction:column;align-items:flex-start;transition:background-color .3s var(--ease)}
+.card:hover{background:var(--ink3)}
+.card-t{margin-top:1rem;font-size:clamp(1.0625rem,1.3vw,1.25rem);font-weight:600;line-height:1.2;letter-spacing:-.015em}
+.card .txt{margin-top:0.5rem;font-size:0.9062rem}
+.pi{display:grid;grid-template-columns:repeat(7,0.375rem);grid-auto-rows:0.375rem;gap:0.0625rem}
+.pi b{display:block}
+
+/* data */
+.data{margin-top:clamp(1.375rem,3.2vh,1.875rem);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:0.5rem}
+.big{background:#3A55C8;padding:clamp(1.25rem,2.2vw,1.75rem);display:flex;flex-direction:column;justify-content:space-between;gap:1.75rem}
+.big-v{font-size:clamp(2.75rem,4.4vw,4.25rem);font-weight:600;line-height:.95;letter-spacing:-.035em;white-space:nowrap}
+.big .mono{color:#FFFFFF}
+.big .mono + .mono{margin-top:0.375rem;color:var(--peri)}
+.files{background:var(--ink2);padding:0.375rem clamp(1rem,1.8vw,1.375rem)}
+.file{display:grid;grid-template-columns:1.375rem minmax(0,1fr);gap:0.75rem;align-items:baseline;padding:0.6875rem 0;border-top:0.0625rem solid var(--line)}
+.file:first-child{border-top:0}
+.file i{width:0.625rem;height:0.625rem;background:#3DF08A;transform:translateY(0.0625rem)}
+.file:nth-child(2n) i{background:#5E79E8}
+.file:nth-child(3n) i{background:#C9D3FF}
+.file-t{font-size:0.9375rem;font-weight:600;line-height:1.3}
+.file-t span{font-weight:400;color:var(--peri-l)}
+.fict{margin-top:0.5rem;display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1rem;background:var(--ink2);box-shadow:inset 0.1875rem 0 0 #C9D3FF;font-size:0.875rem;line-height:1.45;color:#FFFFFF}
+.sec-cta{margin-top:clamp(1.375rem,3.2vh,1.875rem);display:flex;flex-wrap:wrap;gap:0.75rem 1.125rem;align-items:center}
+.sec-cta .note{font-size:0.8438rem;color:var(--peri-l);max-width:40ch}
+
+/* submit: the form fields as numbered rows */
+.form{margin-top:clamp(1.25rem,3vh,1.75rem);counter-reset:f}
+.fld{display:grid;grid-template-columns:2.75rem minmax(0,1fr);gap:1rem;align-items:start;padding:1rem 0;border-top:0.0625rem solid var(--line)}
+.fld:last-child{border-bottom:0.0625rem solid var(--line)}
+.fld .tag{min-width:2.125rem}
+.fld-t{font-size:clamp(1rem,1.25vw,1.125rem);font-weight:600;line-height:1.3}
+.fld-t span{font-weight:400;color:var(--peri-l)}
+.also{margin-top:0.875rem;font-size:0.8438rem;line-height:1.5;color:var(--peri-l);max-width:66ch}
+.notes{margin-top:clamp(1.125rem,2.6vh,1.5rem);display:grid;grid-template-columns:minmax(0,1fr);gap:0.5rem}
+.notes > div{background:var(--ink2);padding:1rem 1.125rem;font-size:0.9062rem;line-height:1.5;color:#FFFFFF}
+.notes .mono{display:block;margin-bottom:0.5rem;color:#3DF08A;font-size:0.6875rem}
+
+/* check: three numbers and the disqualification rule */
+.chk{margin-top:clamp(1.375rem,3.2vh,1.875rem);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:0.0625rem solid var(--line);border-bottom:0.0625rem solid var(--line)}
+.chk > div{padding:1.25rem 0}
+.chk > div + div{padding-left:clamp(1rem,2vw,1.75rem);box-shadow:inset 0.0625rem 0 0 var(--line)}
+.chk-v{font-size:clamp(2.5rem,4vw,3.75rem);font-weight:600;line-height:1;letter-spacing:-.035em;white-space:nowrap}
+.chk-v small{font-size:.42em;font-weight:500;letter-spacing:-.01em;margin-left:.2em;color:var(--peri)}
+.chk .mono{margin-top:0.625rem;font-size:0.6875rem}
+.warn{margin-top:clamp(1.125rem,2.6vh,1.5rem);display:grid;grid-template-columns:auto minmax(0,1fr);gap:1rem;align-items:start;padding:1.125rem 1.25rem;background:#FFFFFF;color:#0C1033}
+.warn .tag{justify-self:start;background:#0C1033;color:#FFFFFF}
+.warn p{font-size:clamp(0.9375rem,1.15vw,1.0625rem);font-weight:500;line-height:1.5}
+
+/* score: 100 cells = 100 points */
+.score{margin-top:clamp(1.375rem,3.2vh,1.875rem);display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(1.5rem,3vw,2.75rem);align-items:start}
+.sc-panel{background:var(--ink2);padding:clamp(1rem,1.8vw,1.375rem)}
+.mosaic{display:grid;grid-template-columns:repeat(10,clamp(0.9375rem,1.35vw,1.3125rem));grid-auto-rows:clamp(0.9375rem,1.35vw,1.3125rem);gap:0.1875rem}
+.mosaic i{display:block;background:rgba(201,211,255,.07);transition:background-color .25s linear,opacity .3s linear,box-shadow .2s}
+.mosaic i.on.k0{background:#3DF08A}
+.mosaic i.on.k1{background:#5E79E8}
+.mosaic i.on.k2{background:#C9D3FF}
+.mosaic.sel0 i:not(.k0),.mosaic.sel1 i:not(.k1),.mosaic.sel2 i:not(.k2){opacity:.22}
+.sc-n{margin-top:0.875rem;display:flex;align-items:baseline;gap:0.5rem}
+.sc-n b{font-size:clamp(2rem,3vw,2.75rem);font-weight:600;line-height:1;letter-spacing:-.03em;min-width:2.2ch}
+.srows{border-top:0.0625rem solid var(--line)}
+.srow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0.25rem 1rem;padding:0.875rem 0.5rem 0.875rem 0.75rem;border-bottom:0.0625rem solid var(--line);transition:background-color .3s,box-shadow .3s}
+.srow.act{background:rgba(201,211,255,.05);box-shadow:inset 0.1875rem 0 0 var(--c)}
+.srow-t{display:flex;align-items:center;gap:0.625rem;font-size:clamp(1rem,1.25vw,1.125rem);font-weight:600;line-height:1.3}
+.srow-t i{width:0.625rem;height:0.625rem;flex:none}
+.srow-p{font-size:clamp(1.375rem,1.9vw,1.75rem);font-weight:600;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-align:right}
+.srow-p small{font-size:.5em;font-weight:500;color:var(--peri-l);margin-left:.25em}
+.srow .txt{grid-column:1 / -1;margin-top:0;padding-left:1.25rem;font-size:0.875rem}
+.shead{display:grid;grid-template-columns:minmax(0,1fr) auto;padding-bottom:0.625rem}
+
+/* dates: rows that follow the clock */
+.tl{margin-top:clamp(1.25rem,3vh,1.75rem)}
+.tl-h,.tl-r{display:grid;grid-template-columns:12.5rem minmax(0,1fr);gap:1rem;align-items:center}
+.tl-h{padding:0 0.75rem 0.625rem}
+.tl-r{position:relative;padding:0.875rem 0.75rem;border-top:0.0625rem solid var(--line)}
+.tl-r:last-child{border-bottom:0.0625rem solid var(--line)}
+.tl-t{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:0.8438rem;letter-spacing:.02em;color:#FFFFFF;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl-x{font-size:clamp(0.9375rem,1.15vw,1.0625rem);line-height:1.35}
+.tl-r.past .tl-t,.tl-r.past .tl-x{color:var(--peri-l);opacity:.7}
+.tl-r.now{background:var(--ink2);box-shadow:inset 0.1875rem 0 0 #3DF08A}
+.tl-r.now .tl-t{color:#3DF08A}
+.tl-r.now .tl-x{font-weight:600}
+.tl-r.key:not(.past) .tl-x{font-weight:600}
+
+/* rules */
+.rules{margin-top:clamp(1.25rem,3vh,1.75rem);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.5rem}
+.rule{background:var(--ink2);padding:clamp(1.125rem,1.9vw,1.375rem);display:grid;grid-template-columns:auto minmax(0,1fr);gap:0.875rem;align-items:start}
+.rule p{font-size:0.9375rem;line-height:1.5}
+
+/* FAQ */
+.faq{margin-top:clamp(1.25rem,3vh,1.75rem)}
+.fq{border-top:0.0625rem solid var(--line)}
+.fq:last-child{border-bottom:0.0625rem solid var(--line)}
+.fq-h{width:100%;display:flex;gap:1rem;align-items:center;padding:1rem 0;text-align:left}
+.fq-s{flex:none;width:1.875rem;height:1.875rem;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:1rem;line-height:1;color:var(--peri-l);box-shadow:inset 0 0 0 0.0938rem var(--line2);transition:background-color .2s,color .2s,box-shadow .2s}
+.fq-h:hover .fq-s{color:#3DF08A;box-shadow:inset 0 0 0 0.0938rem #3DF08A}
+.fq.open .fq-s{background:#3DF08A;color:#0C1033;box-shadow:none}
+.fq-q{font-size:clamp(1rem,1.25vw,1.1875rem);font-weight:500;line-height:1.3;letter-spacing:-.012em}
+.fq-ab{display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;transition:grid-template-rows .5s var(--ease),opacity .35s var(--ease),visibility 0s linear .5s}
+.fq.open .fq-ab{grid-template-rows:1fr;opacity:1;visibility:visible;transition-delay:0s}
+.fq-ab > div{overflow:hidden;min-height:0}
+.fq-a{padding:0 0 1.125rem 2.875rem;max-width:calc(62ch + 2.875rem)}
+.fq-a a{color:#5E79E8;font-weight:500;background:linear-gradient(90deg,currentColor 0.125rem,transparent 0.125rem) 0 100%/0.25rem 0.125rem repeat-x;padding-bottom:0.125rem}
+
+/* footer */
+.foot{padding-top:1.75rem;padding-bottom:2.5rem;border-top:0.0625rem solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:0.875rem 1.5rem;flex-wrap:wrap}
+.foot-t{font-size:0.8125rem;line-height:1.45;color:var(--peri-l);max-width:52ch}
+.foot-l{display:flex;flex-wrap:wrap;gap:0.5rem 1.25rem}
+.foot-l a{color:#FFFFFF;transition:color .2s}
+.foot-l a:hover{color:#3DF08A}
+
+/* phones: the submit button stays at hand */
+.bar{display:none}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(1.125rem);transition:opacity .7s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--i,0) * 70ms)}
+.rv.in,.no-js .rv{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none;transition:none}
+  .ans{transition:none}
+}
+@media (max-width:560px){
+  .nav-l{display:none}
+}
+@media (min-width:1100px){
+  html[lang="ru"] .h1{font-size:clamp(3.25rem,min(7.4vw,12vh,calc((100vw - 2 * var(--gut) - 4rem) / 13.9)),8.25rem)}
+}
+@media (max-width:1099px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .ill{justify-self:start;max-width:35rem}
+  .body{grid-template-columns:minmax(0,1fr)}
+  .toc{display:none}
+  .cards{grid-template-columns:minmax(0,1fr)}
+  .card{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0.25rem 1.125rem}
+  .card .pi{grid-row:span 2}
+  .card-t{margin-top:0}
+  .card .txt{margin-top:0}
+}
+@media (max-width:720px){
+  .mosaic{grid-template-columns:repeat(10,minmax(0,1fr));grid-auto-rows:auto;max-width:22rem}
+  .mosaic i{aspect-ratio:1}
+  .nav-tg span{display:none}
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:55;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding:0.625rem var(--gut) calc(0.625rem + env(safe-area-inset-bottom));background:rgba(12,16,51,.94);-webkit-backdrop-filter:blur(0.75rem);backdrop-filter:blur(0.75rem);box-shadow:0 -0.0625rem 0 var(--line);transform:translateY(110%);transition:transform .35s var(--ease)}
+  .bar.show{transform:none}
+  .bar .mono{font-size:0.6562rem}
+  .bar b{display:block;margin-top:0.125rem;font-family:'Onest',sans-serif;font-size:0.9375rem;font-weight:600;letter-spacing:-.01em;text-transform:none;color:#FFFFFF}
+  .foot{padding-bottom:6rem}
+  .nav .nav-cta{display:none}
+  .data,.notes,.rules{grid-template-columns:minmax(0,1fr)}
+  .score{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  .h1{font-size:min(calc((100vw - 2.5rem) / 6.6),3.5rem)}
+  .h2{font-size:min(calc((100vw - 2.5rem) / 9.6),2.125rem)}
+  .info{display:grid;grid-template-columns:minmax(0,1fr);gap:0.875rem}
+  .info > div{padding:0!important;box-shadow:none!important}
+  .ctas{flex-direction:column;align-items:stretch}
+  .ctas .btn{justify-content:space-between}
+  .nums{grid-template-columns:minmax(0,1fr)}
+  .num{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
+  .num .mono{margin-top:0;text-align:right}
+  .chk{grid-template-columns:minmax(0,1fr)}
+  .chk > div + div{padding-left:0;box-shadow:inset 0 0.0625rem 0 var(--line)}
+  .chk > div{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
+  .chk .mono{margin-top:0;text-align:right;max-width:20ch}
+  .tl-h{display:none}
+  .tl-r{grid-template-columns:minmax(0,1fr);gap:0.25rem}
+  .warn{grid-template-columns:minmax(0,1fr);gap:0.625rem}
+  .fq-a{padding-left:0}
+  .ill-ans{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:400px){
+  .wm{height:1.625rem}
+  .mark{height:1.875rem}
+  .lang-b{padding-left:0.375rem;padding-right:0.375rem}
+  .btn{padding-left:1.125rem;padding-right:1.125rem}
+}
+</style>
+</head>
+<body class="no-js">
+
+<header class="nav" id="nav">
+  <a href="../" class="brand" data-keep-lang aria-label="UZEX AI Hackathon — asosiy sahifa"><span class="mark" aria-hidden="true"></span><img src="../logo-wordmark.svg" alt="UZEX AI Hackathon" class="wm"></a>
+  <nav class="nav-l" aria-label="Saralash bosqichi">
+    <a href="../" data-keep-lang data-i18n="fMain">Asosiy sahifa</a>
+  </nav>
+  <div class="nav-r">
+    <a href="https://t.me/UZEX_AI_Hackathon" target="_blank" rel="noopener" class="nav-tg" aria-label="Telegram"><img src="../telegram.svg" alt="" aria-hidden="true"><span data-i18n="tgNav">Telegram kanal</span></a>
+    <div class="lang" id="lang">
+      <button type="button" class="lang-b mono" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Til / Язык / Language"><span id="langLabel">UZ</span><span class="caret" aria-hidden="true"></span></button>
+      <div class="lang-m" id="langMenu">
+        <button type="button" class="mono" data-pick="uz" lang="uz">UZ</button>
+        <button type="button" class="mono" data-pick="ru" lang="ru">RU</button>
+        <button type="button" class="mono" data-pick="en" lang="en">EN</button>
+      </div>
+    </div>
+    <a class="btn btn-n btn-s nav-cta" data-link="form" target="_blank" rel="noopener"><span id="navCta">Prototipni topshirish</span><span class="ar">→</span><span class="lock" aria-hidden="true"></span></a>
+  </div>
+</header>
+
+<main>
+<section class="wrap hero" id="top">
+  <div>
+    <div class="crumbs rv">
+      <a href="../" class="back mono" data-keep-lang><span aria-hidden="true">←</span><span data-i18n="back">UZEX AI Hackathon 2026</span></a>
+      <span class="tag bg-n" data-i18n="heroTag">Saralash bosqichi</span>
+    </div>
+    <h1 class="h1" data-i18n="h1"><span class="plr"><span class="pl bg-w">Saralash</span></span> <span class="plr s"><span class="pl bg-b">bosqichi</span></span></h1>
+    <p class="hero-p rv" style="--i:2" data-i18n="heroP">Birja bitimlari haqidagi savollarga aniq va faqat maʼlumotlar asosida javob beradigan AI-agent yarating.</p>
+    <div class="info rv" style="--i:3">
+      <div data-at="close"><div class="mono" data-i18n="iSubL">Prototipni topshirish:</div><div class="info-v" data-i18n="iSub">5-noyabr, 18:00 gacha</div></div>
+      <div data-at="res"><div class="mono" data-i18n="iResL">Natijalar:</div><div class="info-v" data-i18n="iRes">6-noyabr</div></div>
+      <div data-at="hack"><div class="mono" data-i18n="iHackL">Xakaton:</div><div class="info-v" data-i18n="iHack">7–8-noyabr, Toshkent</div></div>
+    </div>
+    <div class="ctas rv" style="--i:4">
+      <div><a class="btn btn-n" data-link="data" target="_blank" rel="noopener"><span data-i18n="bData">Maʼlumotlarni yuklab olish</span><span class="ar dn">↓</span></a></div>
+      <div><a class="btn btn-g" data-link="form" target="_blank" rel="noopener"><span data-i18n="bForm">Prototipni topshirish</span><span class="ar">→</span><span class="lock" aria-hidden="true"></span></a><span class="btn-sub mono" data-sub="form"></span></div>
+    </div>
+  </div>
+
+  <div class="ill rv" style="--i:3" aria-hidden="true">
+    <div class="ill-cap"><span class="mono" data-i18n="illCap">Reyestr · 500 000 bitim</span><span class="mono">spot.uzex.uz</span></div>
+    <div class="ill-grid" id="illGrid"></div>
+    <div class="ill-ans">
+      <div class="ans" id="ansOk"><span class="ans-i" data-px="ok"></span><div><div class="ans-t" data-i18n="ansOk">Javob maʼlumotdan</div><div class="mono" data-i18n="ansOkM">Raqam · nom · kod</div></div></div>
+      <div class="ans" id="ansNo"><span class="ans-i" data-px="no"></span><div><div class="ans-t" data-i18n="ansNo">Maʼlumotda javob yoʻq</div><div class="mono" data-i18n="ansNoM">Agent buni ochiq aytadi</div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap body">
+  <aside class="toc" aria-label="Mundarija">
+    <ol>
+      <li><a href="#about"><span class="mono">01</span><span data-i18n="tAbout">Saralash haqida</span></a></li>
+      <li><a href="#task"><span class="mono">02</span><span data-i18n="nTask">Topshiriq</span></a></li>
+      <li><a href="#data"><span class="mono">03</span><span data-i18n="nData">Maʼlumotlar</span></a></li>
+      <li><a href="#submit"><span class="mono">04</span><span data-i18n="tSubmit">Natijani topshirish</span></a></li>
+      <li><a href="#check"><span class="mono">05</span><span data-i18n="tCheck">Tekshirish</span></a></li>
+      <li><a href="#score"><span class="mono">06</span><span data-i18n="tScore">Baholash · 100 ball</span></a></li>
+      <li><a href="#dates"><span class="mono">07</span><span data-i18n="nDates">Muddatlar</span></a></li>
+      <li><a href="#rules"><span class="mono">08</span><span data-i18n="tRules">Qoidalar</span></a></li>
+      <li><a href="#faq"><span class="mono">09</span><span data-i18n="tFaq">Savol va javoblar</span></a></li>
+    </ol>
+    <div class="dl">
+      <div class="mono" data-i18n="dlT">Saralash bosqichi</div>
+      <p class="dl-d" data-i18n="dlX">Maʼlumotlarni yuklab oling, agentni yarating va prototipni 5-noyabr, 18:00 gacha topshiring.</p>
+      <a class="btn btn-n btn-s" data-link="data" target="_blank" rel="noopener"><span data-i18n="bData">Maʼlumotlarni yuklab olish</span><span class="ar dn">↓</span></a>
+      <a class="btn btn-g btn-s" data-link="form" target="_blank" rel="noopener"><span data-i18n="bForm">Prototipni topshirish</span><span class="ar">→</span><span class="lock" aria-hidden="true"></span></a>
+      <span class="btn-sub mono" data-sub="form"></span>
+    </div>
+  </aside>
+
+  <div>
+    <!-- 01 · about -->
+    <section class="sec" id="about">
+      <div class="sec-n rv"><span class="tag o">01</span><i></i></div>
+      <h2 class="h2 rv" data-i18n="hAbout"><span class="plr"><span class="pl bg-w">Saralash bosqichi</span></span> <span class="plr s"><span class="pl bg-b">haqida</span></span></h2>
+      <p class="lead rv" data-i18n="about">UZEX AI Hackathonʼga hozirgacha 511 ta jamoa roʻyxatdan oʻtdi — ulardan faqat 20 tasi saralashdan oʻtib, xakatonda qatnashadi.</p>
+      <p class="txt rv" data-i18n="about2">Saralash — haqiqiy birja reyestri formatidagi maʼlumotlar asosida amaliy topshiriq: jamoalar bir kechada ishlaydigan prototip yaratadi, komissiya esa uni jonli savollar bilan tekshiradi. Xakaton 7–8-noyabr kunlari Toshkentda oflayn oʻtadi, boshlanishi soat 09:00 da.</p>
+      <div class="nums">
+        <div class="num rv" style="--i:0"><div class="num-v">511</div><div class="mono" data-i18n="n1">jamoa roʻyxatdan oʻtdi</div></div>
+        <div class="num rv hl" style="--i:1"><div class="num-v">20</div><div class="mono" data-i18n="n2">jamoa saralashdan oʻtadi</div></div>
+        <div class="num rv" style="--i:2"><div class="num-v">60</div><div class="mono" data-i18n="n3">ishtirokchi xakatonda</div></div>
+      </div>
+    </section>
+
+    <!-- 02 · task -->
+    <section class="sec" id="task">
+      <div class="sec-n rv"><span class="tag o">02</span><i></i></div>
+      <h2 class="h2 rv" data-i18n="hTask"><span class="plr"><span class="pl bg-w">Topshiriq</span></span></h2>
+      <p class="lead rv" data-i18n="task">Birja bitimlari haqidagi savollarga rus va oʻzbek tillarida javob beradigan AI-agent — <span class="nw">Telegram-bot</span> yoki veb-servis yarating.</p>
+      <div class="chips rv"><span class="tag bg-p" data-i18n="chip1">Telegram-bot</span><span class="tag bg-p" data-i18n="chip2">Veb-servis</span><span class="tag o">RU + UZ</span></div>
+      <div class="cards">
+        <div class="card rv" style="--i:0"><span class="pi" data-px="ok"></span><h3 class="card-t" data-i18n="c1t">Aniq va maʼlumotga asoslangan</h3><p class="txt" data-i18n="c1x">Javob toʻgʻri va maʼlumotlarga asoslangan boʻlishi kerak: aniq raqamlar, nomlar, kodlar.</p></div>
+        <div class="card rv" style="--i:1"><span class="pi" data-px="no"></span><h3 class="card-t" data-i18n="c2t">Javob yoʻqmi — shuni ayting</h3><p class="txt" data-i18n="c2x">Maʼlumotlarda javob boʻlmasa, agent buni ochiq aytishi kerak, oʻylab topmasligi kerak.</p></div>
+        <div class="card rv" style="--i:2"><span class="pi" data-px="tool"></span><h3 class="card-t" data-i18n="c3t">Yondashuvni oʻzingiz tanlaysiz</h3><p class="txt" data-i18n="c3x">Agentni qanday qurish va javoblarni qanday taqdim etishni oʻzingiz hal qilasiz. Istalgan vositalardan, jumladan LLM va <span class="nw">AI-yordamchilardan</span> foydalanish mumkin.</p></div>
+      </div>
+    </section>
+
+    <!-- 03 · data -->
+    <section class="sec" id="data">
+      <div class="sec-n rv"><span class="tag o">03</span><i></i></div>
+      <h2 class="h2 rv" data-i18n="hData"><span class="plr"><span class="pl bg-w">Maʼlumotlar</span></span></h2>
+      <p class="lead rv" data-i18n="data">Maʼlumotlar papkasi ochiq va barcha jamoalar uchun bir xil.</p>
+      <div class="data">
+        <div class="big rv" style="--i:0">
+          <div class="big-v" data-i18n="bigV">500 000</div>
+          <div><div class="mono" data-i18n="bigL">ta bitim · spot.uzex.uz formatida</div><div class="mono" data-i18n="bigD">2022-yil yanvar — 2026-yil oktabr</div></div>
+        </div>
+        <ul class="files rv" style="--i:1">
+          <li class="file"><i></i><div class="file-t" data-i18n="f1">Birja bitimlari reyestri</div></li>
+          <li class="file"><i></i><div class="file-t" data-i18n="f2">Shartnoma kartochkalari</div></li>
+          <li class="file"><i></i><div class="file-t" data-i18n="f3">Savdo ishtirokchilari</div></li>
+          <li class="file"><i></i><div class="file-t" data-i18n="f4">Brokerlar</div></li>
+          <li class="file"><i></i><div class="file-t" data-i18n="f5">Dollar kursi</div></li>
+          <li class="file"><i></i><div class="file-t" data-i18n="f6">README <span>— har bir maydon rus va oʻzbek tillarida tavsiflangan</span></div></li>
+        </ul>
+      </div>
+      <p class="fict rv" data-i18n="fict">Barcha kompaniyalar, STIR va summalar oʻylab topilgan.</p>
+      <div class="sec-cta rv">
+        <div><a class="btn btn-n" data-link="data" target="_blank" rel="noopener"><span data-i18n="bData">Maʼlumotlarni yuklab olish</span><span class="ar dn">↓</span></a></div>
+      </div>
+    </section>
+
+    <!-- 04 · submit -->
+    <section class="sec" id="submit">
+      <div class="sec-n rv"><span class="tag o">04</span><i></i></div>
+      <h2 class="h2 rv" data-i18n="hSubmit"><span class="plr"><span class="pl bg-w">Natijani qanday</span></span> <span class="plr s"><span class="pl bg-b">topshirish kerak</span></span></h2>
+      <p class="lead rv" data-i18n="submit">5-noyabr soat 18:00 gacha Google Formani toʻldiring. Formada:</p>
+      <ol class="form rv">
+        <li class="fld"><span class="tag bg-n">1</span><div class="fld-t" data-i18n="fl1">Prototip havolasi <span>— Telegram-bot yoki veb-servis.</span></div></li>
+        <li class="fld"><span class="tag bg-n">2</span><div class="fld-t" data-i18n="fl2">Jamoa aʼzolari <span>— har birining ismi va familiyasi, uch kishigacha.</span></div></li>
+        <li class="fld"><span class="tag bg-n">3</span><div class="fld-t" data-i18n="fl3">Yechim tavsifi <span>— qanday texnologiyalar va usullardan foydalandingiz.</span></div></li>
+      </ol>
+      <p class="also rv" data-i18n="also">Formada yana jamoa rahbarining ismi va telefoni soʻraladi — natijani shu raqamga xabar qilamiz.</p>
+      <div class="notes">
+        <div class="rv"><span class="mono" data-i18n="nt1L">Muhim</span><span data-i18n="nt1">Prototip oʻrnatish va roʻyxatdan oʻtishsiz ishlashi kerak.</span></div>
+      </div>
+      <div class="sec-cta rv">
+        <div><a class="btn btn-n" data-link="form" target="_blank" rel="noopener"><span data-i18n="bForm">Prototipni topshirish</span><span class="ar">→</span><span class="lock" aria-hidden="true"></span></a><span class="btn-sub mono" data-sub="form"></span></div>
+      </div>
+    </section>
+
+    <!-- 05 · check -->
+    <section class="sec" id="check">
+      <div class="sec-n rv"><span class="tag o">05</span><i></i></div>
+      <h2 class="h2 rv" data-i18n="hCheck"><span class="plr"><span class="pl bg-w">Qanday</span></span> <span class="plr s"><span class="pl bg-b">tekshiramiz</span></span></h2>
+      <p class="lead rv" data-i18n="check">5-noyabr soat 18:00 dan komissiya har bir prototipga maʼlumotlar boʻyicha 10 ta savol beradi — rus yoki oʻzbek tilida.</p>
+      <div class="chk rv">
+        <div><div class="chk-v">10</div><div class="mono" data-i18n="k1">savol maʼlumotlar boʻyicha</div></div>
+        <div><div class="chk-v">90<small data-i18n="k2u">soniya</small></div><div class="mono" data-i18n="k2">har bir javobga, koʻpi bilan</div></div>
+        <div><div class="chk-v">RU<small>/</small>UZ</div><div class="mono" data-i18n="k3">savollar tili</div></div>
+      </div>
+      <p class="txt rv" data-i18n="check2">Har bir javobga — 90 soniyagacha. Savollar oldindan eʼlon qilinmaydi.</p>
+      <div class="warn rv"><span class="tag" data-i18n="warnT">Diqqat</span><p data-i18n="warn">Agent javobni oʻylab topsa — maʼlumotlarda javob yoʻq joyda raqam, kompaniya yoki tovar aytsa, — jamoa saralashdan chiqadi.</p></div>
+    </section>
+
+    <!-- 06 · score -->
+    <section class="sec" id="score">
+      <div class="sec-n rv"><span class="tag o">06</span><i></i></div>
+      <h2 class="h2 rv" data-i18n="hScore"><span class="plr"><span class="pl bg-w">Qanday baholaymiz</span></span> <span class="plr s"><span class="pl bg-n">100 ball</span></span></h2>
+      <div class="score">
+        <div class="sc-panel rv" aria-hidden="true"><div class="mosaic" id="mosaic"></div><div class="sc-n"><b id="scN">0</b><span class="mono" data-i18n="scU">/ 100 ball</span></div></div>
+        <div class="rv" style="--i:1">
+          <div class="shead"><span class="mono" data-i18n="sh1">Nima · nimaga qaraymiz</span><span class="mono" data-i18n="sh2">Ball</span></div>
+          <div class="srows">
+            <div class="srow" data-k="0" style="--c:#3DF08A"><div class="srow-t"><i style="background:#3DF08A"></i><span data-i18n="s1">Toʻgʻri javoblar</span></div><div class="srow-p">60</div><p class="txt" data-i18n="s1x">10 ta savol, har biri 6 ball</p></div>
+            <div class="srow" data-k="1" style="--c:#5E79E8"><div class="srow-t"><i style="background:#5E79E8"></i><span data-i18n="s2">Prototip sifati</span></div><div class="srow-p">20</div><p class="txt" data-i18n="s2x">javob nimaga asoslangani koʻrinadi; rus va oʻzbek tillarini tushunadi; qulay va tez</p></div>
+            <div class="srow" data-k="2" style="--c:#C9D3FF"><div class="srow-t"><i style="background:#C9D3FF"></i><span data-i18n="s3">Yechim tavsifi</span></div><div class="srow-p">20</div><p class="txt" data-i18n="s3x">qanday texnologiya va usullar ishlatilgani va javoblar qanday tekshirilgani tushunarli</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 · dates -->
+    <section class="sec" id="dates">
+      <div class="sec-n rv"><span class="tag o">07</span><i></i></div>
+      <h2 class="h2 rv" data-i18n="hDates"><span class="plr"><span class="pl bg-w">Muddatlar</span></span></h2>
+      <div class="tl rv">
+        <div class="tl-h"><span class="mono" data-i18n="tlH1">Qachon (Toshkent)</span><span class="mono" data-i18n="tlH2">Nima</span></div>
+        <div class="tl-r key" data-from="start" data-to="close"><span class="tl-t" data-i18n="d2t">5-noyabr, 18:00 gacha</span><span class="tl-x" data-i18n="d2x">prototipni Google Forma orqali topshirish</span></div>
+        <div class="tl-r" data-from="close" data-to="res"><span class="tl-t" data-i18n="d3t">5-noyabr, 18:00 dan</span><span class="tl-x" data-i18n="d3x">komissiya prototiplarni tekshiradi</span></div>
+        <div class="tl-r" data-from="res" data-to="hack"><span class="tl-t" data-i18n="d4t">6-noyabr</span><span class="tl-x" data-i18n="d4x">natijalar va jamoalarga taklifnomalar</span></div>
+        <div class="tl-r" data-from="hack" data-to="end"><span class="tl-t" data-i18n="d5t">7–8-noyabr, 09:00 dan</span><span class="tl-x" data-i18n="d5x">xakaton, Toshkentda oflayn — faqat saralashdan oʻtgan 20 ta jamoa uchun</span></div>
+      </div>
+    </section>
+
+    <!-- 08 · rules -->
+    <section class="sec" id="rules">
+      <div class="sec-n rv"><span class="tag o">08</span><i></i></div>
+      <h2 class="h2 rv" data-i18n="hRules"><span class="plr"><span class="pl bg-w">Qoidalar</span></span></h2>
+      <ul class="rules">
+        <li class="rule rv" style="--i:0"><span class="tag bg-p">01</span><p data-i18n="r1">Jamoada — uch kishigacha.</p></li>
+        <li class="rule rv" style="--i:1"><span class="tag bg-p">02</span><p data-i18n="r2">Faqat oʻz jamoangiz bilan ishlang: kod va prototipni boshqalarga bermang — mosliklarni koʻramiz.</p></li>
+        <li class="rule rv" style="--i:2"><span class="tag bg-p">03</span><p data-i18n="r3">Prototip doim ishlab turishi kerak — <span class="nw">Telegram-bot</span> yoki veb-ilova koʻrinishida.</p></li>
+      </ul>
+    </section>
+
+    <!-- 09 · FAQ -->
+    <section class="sec" id="faq">
+      <div class="sec-n rv"><span class="tag o">09</span><i></i></div>
+      <h2 class="h2 rv" data-i18n="hFaq"><span class="plr"><span class="pl bg-w">Savol va</span></span> <span class="plr s"><span class="pl bg-b">javoblar</span></span></h2>
+      <div class="faq rv">
+        <div class="fq open"><button type="button" class="fq-h" aria-expanded="true" aria-controls="fa1"><span class="fq-s" aria-hidden="true">−</span><span class="fq-q" data-i18n="q1">ChatGPT, Claude va boshqa LLMʼlardan foydalansa boʻladimi?</span></button><div class="fq-ab" id="fa1"><div><p class="txt fq-a" data-i18n="a1">Ha, istalgan vosita va servislardan.</p></div></div></div>
+        <div class="fq"><button type="button" class="fq-h" aria-expanded="false" aria-controls="fa2"><span class="fq-s" aria-hidden="true">+</span><span class="fq-q" data-i18n="q2">Albatta <span class="nw">Telegram-bot</span> qilish kerakmi?</span></button><div class="fq-ab" id="fa2"><div><p class="txt fq-a" data-i18n="a2">Yoʻq, veb-servis ham boʻladi. Asosiysi — komissiya oʻrnatish va roʻyxatdan oʻtishsiz savol berib, javob ola olsin.</p></div></div></div>
+        <div class="fq"><button type="button" class="fq-h" aria-expanded="false" aria-controls="fa3"><span class="fq-s" aria-hidden="true">+</span><span class="fq-q" data-i18n="q3">Qaysi tilda javob berish kerak?</span></button><div class="fq-ab" id="fa3"><div><p class="txt fq-a" data-i18n="a3">Savol qaysi tilda boʻlsa, oʻsha tilda: savollar rus va oʻzbek tillarida boʻladi.</p></div></div></div>
+        <div class="fq"><button type="button" class="fq-h" aria-expanded="false" aria-controls="fa4"><span class="fq-s" aria-hidden="true">+</span><span class="fq-q" data-i18n="q4">Topshirgandan keyin prototipni oʻzgartirsa boʻladimi?</span></button><div class="fq-ab" id="fa4"><div><p class="txt fq-a" data-i18n="a4">5-noyabr soat 18:00 gacha — ha, formani qayta yuboring. Soat 18:00 dan keyin prototipni oʻzgartirib boʻlmaydi.</p></div></div></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<footer class="wrap">
+  <div class="foot">
+    <p class="foot-t" data-i18n="fText">UZEX AI Hackathon 2026 — Oʻzbekiston respublika tovar-xom ashyo birjasi tashabbusi</p>
+    <div class="foot-l mono">
+      <a href="../" data-keep-lang data-i18n="fMain">Asosiy sahifa</a>
+      <a href="https://t.me/UZEX_AI_Hackathon" target="_blank" rel="noopener" data-i18n="fTg">Telegram kanal</a>
+      <span data-i18n="fCopy">© 2026 UZEX · Toshkent</span>
+    </div>
+  </div>
+</footer>
+</main>
+
+<div class="bar" id="bar">
+  <div class="mono"><span id="barL">Topshirishgacha</span><b id="barV">—</b></div>
+  <a class="btn btn-n btn-s" data-link="form" target="_blank" rel="noopener"><span data-i18n="bFormS">Topshirish</span><span class="ar">→</span><span class="lock" aria-hidden="true"></span></a>
+</div>
+
+<script>
+(function () {
+  document.body.classList.remove('no-js');
+
+  /* Links from the organizers */
+  var LINKS = {
+    data: 'https://drive.google.com/drive/folders/1BcjcDi1N0ym1MwX3OrgZYfDqsWLOkVeL?usp=sharing',   // data folder (open all the time)
+    form: 'https://forms.gle/5ALB3PrWdKf6TTCf8'   // Google Form for the prototype
+  };
+
+  /* Key moments, Tashkent time (UTC+5) */
+  var T = {
+    start: 0,
+    close: Date.parse('2026-11-05T18:00:00+05:00'),
+    res: Date.parse('2026-11-06T00:00:00+05:00'),
+    hack: Date.parse('2026-11-07T09:00:00+05:00'),
+    end: Date.parse('2026-11-08T19:00:00+05:00')
+  };
+  /* ?now=2026-11-05T08:00:00Z lets us preview any moment */
+  var nowOverride = null;
+  try { var q = new URLSearchParams(location.search).get('now'); if (q && !isNaN(Date.parse(q))) nowOverride = Date.parse(q) - Date.now(); } catch (e) { /* no URL API */ }
+  function now() { return Date.now() + (nowOverride || 0); }
+
+  var plash = function (a, b, c) { return '<span class="plr"><span class="pl bg-w">' + a + '</span></span>' + (b ? ' <span class="plr s"><span class="pl ' + (c || 'bg-b') + '">' + b + '</span></span>' : ''); };
+
+  var DICT = {
+    ru: {
+      fMain: 'Главная страница', tgNav: 'Telegram-канал',
+      back: 'UZEX AI Hackathon 2026', heroTag: 'Отборочный тур', h1: plash('Отборочный', 'тур'),
+      heroP: 'Сделайте ИИ-агента, который отвечает на вопросы о биржевых сделках — точно и только по данным.',
+      iSubL: 'Сдача прототипа:', iSub: 'до 5 ноября, 18:00', iResL: 'Результаты:', iRes: '6 ноября', iHackL: 'Хакатон:', iHack: '7–8 ноября, Ташкент',
+      bData: 'Скачать данные', bForm: 'Сдать прототип', bFormS: 'Сдать',
+      illCap: 'Реестр · 500 000 сделок', ansOk: 'Ответ из данных', ansOkM: 'Число · название · код', ansNo: 'В данных ответа нет', ansNoM: 'Агент прямо говорит об этом',
+      tAbout: 'Об отборочном туре', nTask: 'Задача', nData: 'Данные', tSubmit: 'Как сдать результат', tCheck: 'Как проверяем', tScore: 'Оценка · 100 баллов', nDates: 'Сроки', tRules: 'Правила', tFaq: 'Вопросы и ответы',
+      dlT: 'Отборочный тур', dlX: 'Скачайте данные, сделайте агента и сдайте прототип до 18:00 5 ноября.',
+      hAbout: plash('Об отборочном', 'туре'),
+      about: 'На UZEX AI Hackathon уже зарегистрировались 511 команд — отбор пройдут только 20 из них.',
+      about2: 'Отбор — практическое задание на данных в формате настоящего реестра биржи: за ночь команды делают рабочий прототип, а комиссия проверяет его живыми вопросами. Хакатон пройдёт очно в Ташкенте 7–8 ноября, начало в 09:00.',
+      n1: 'команд зарегистрировались', n2: 'команд пройдут отбор', n3: 'участников на хакатоне',
+      hTask: plash('Задача'),
+      task: 'Сделайте ИИ-агента — <span class="nw">Telegram-бот</span> или веб-сервис, — который отвечает на вопросы о биржевых сделках на русском и узбекском языках.',
+      chip1: 'Telegram-бот', chip2: 'Веб-сервис',
+      c1t: 'Точно и по данным', c1x: 'Ответ должен быть верным и основанным на данных: точные числа, названия, коды.',
+      c2t: 'Нет ответа — так и скажите', c2x: 'Если в данных ответа нет, агент должен прямо сказать об этом, а не придумывать.',
+      c3t: 'Подход выбираете вы', c3x: 'Как устроить агента и как подавать ответы, решаете вы. Пользоваться можно любыми инструментами, включая LLM и <span class="nw">ИИ-ассистентов</span>.',
+      hData: plash('Данные'),
+      data: 'Папка с данными открыта, данные одни для всех команд.',
+      bigL: 'сделок · в формате spot.uzex.uz', bigD: 'январь 2022 — октябрь 2026',
+      f1: 'Реестр биржевых сделок', f2: 'Карточки контрактов', f3: 'Участники торгов', f4: 'Брокеры', f5: 'Курс доллара', f6: 'README <span>— описание каждого поля на русском и узбекском</span>',
+      fict: 'Все компании, ИНН и суммы вымышлены.',
+      hSubmit: plash('Как сдать', 'результат'),
+      submit: 'До 18:00 5 ноября заполните Google Форму. В форме:',
+      fl1: 'Ссылка на прототип <span>— Telegram-бот или веб-сервис.</span>', fl2: 'Участники команды <span>— имя и фамилия каждого, до трёх человек.</span>', fl3: 'Описание решения <span>— какие технологии и методы вы использовали.</span>',
+      also: 'В форме также нужно указать имя и телефон лидера команды — по этому номеру сообщим результат.',
+      nt1L: 'Важно', nt1: 'Прототип должен работать без установки и регистрации.',
+      hCheck: plash('Как', 'проверяем'),
+      check: 'С 18:00 5 ноября комиссия задаёт каждому прототипу 10 вопросов по данным — на русском или узбекском.',
+      k1: 'вопросов по данным', k2u: 'сек', k2: 'на каждый ответ, не больше', k3: 'язык вопросов',
+      check2: 'На каждый ответ — до 90 секунд. Вопросы заранее не публикуются.',
+      warnT: 'Внимание', warn: 'Если агент выдумывает ответ — называет число, компанию или товар там, где в данных ответа нет, — команда выбывает.',
+      hScore: plash('Как оцениваем', '100 баллов', 'bg-n'), scU: '/ 100 баллов',
+      sh1: 'Что · на что смотрим', sh2: 'Баллы',
+      s1: 'Верные ответы', s1x: '10 вопросов по 6 баллов',
+      s2: 'Качество прототипа', s2x: 'видно, на чём основан ответ; понимает русский и узбекский; удобно и быстро',
+      s3: 'Описание решения', s3x: 'понятно, какие технологии и методы использованы и как вы проверяли ответы',
+      hDates: plash('Сроки'), tlH1: 'Когда (Ташкент)', tlH2: 'Что',
+      d2t: '5 ноября, до 18:00', d2x: 'сдача прототипа через Google Форму',
+      d3t: '5 ноября, с 18:00', d3x: 'комиссия проверяет прототипы',
+      d4t: '6 ноября', d4x: 'результаты и приглашения командам',
+      d5t: '7–8 ноября, с 09:00', d5x: 'хакатон, очно в Ташкенте — только для 20 команд, прошедших отбор',
+      hRules: plash('Правила'),
+      r1: 'В команде — до трёх человек.',
+      r2: 'Решайте только своей командой: не передавайте код и прототип другим — совпадения мы видим.',
+      r3: 'Прототип должен работать всё время — в виде <span class="nw">Telegram-бота</span> или веб-приложения.',
+      hFaq: plash('Вопросы', 'и ответы'),
+      q1: 'Можно ли использовать ChatGPT, Claude и другие LLM?', a1: 'Да, любые инструменты и сервисы.',
+      q2: 'Обязательно делать <span class="nw">Telegram-бот</span>?', a2: 'Нет, подойдёт и веб-сервис. Главное — чтобы комиссия могла задать вопрос и получить ответ без установки и регистрации.',
+      q3: 'На каком языке отвечать?', a3: 'На языке вопроса: вопросы будут на русском и узбекском.',
+      q4: 'Можно ли изменить прототип после сдачи?', a4: 'До 18:00 5 ноября — да, отправьте форму ещё раз. После 18:00 прототип менять нельзя.',
+      fText: 'UZEX AI Hackathon 2026 — инициатива Узбекской республиканской товарно-сырьевой биржи', fTg: 'Telegram-канал', fCopy: '© 2026 UZEX · Ташкент'
+    },
+    en: {
+      fMain: 'Home', tgNav: 'Telegram channel',
+      back: 'UZEX AI Hackathon 2026', heroTag: 'Qualifying round', h1: plash('Qualifying', 'round'),
+      heroP: 'Build an AI agent that answers questions about exchange trades — accurately and strictly from the data.',
+      iSubL: 'Prototype submission:', iSub: 'By November 5, 18:00', iResL: 'Results:', iRes: 'November 6', iHackL: 'Hackathon:', iHack: 'November 7–8, Tashkent',
+      bData: 'Download the data', bForm: 'Submit your prototype', bFormS: 'Submit',
+      illCap: 'Registry · 500,000 trades', ansOk: 'Answer from the data', ansOkM: 'Number · name · code', ansNo: 'Not in the data', ansNoM: 'The agent says so plainly',
+      tAbout: 'About the round', nTask: 'Task', nData: 'Data', tSubmit: 'How to submit', tCheck: 'How we test', tScore: 'Scoring · 100 points', nDates: 'Deadlines', tRules: 'Rules', tFaq: 'Questions and answers',
+      dlT: 'Qualifying round', dlX: 'Download the data, build your agent and submit the prototype by 18:00 on November 5.',
+      hAbout: plash('About the', 'qualifying round'),
+      about: '511 teams have already registered for UZEX AI Hackathon — only 20 of them will make it through the qualifying round.',
+      about2: 'The qualifying round is a hands-on task using data in the same format as the exchange’s real registry: overnight, teams build a working prototype, and the selection committee tests it with live questions. The hackathon takes place in person in Tashkent on November 7–8, starting at 09:00.',
+      n1: 'teams registered', n2: 'teams make it through', n3: 'participants at the hackathon',
+      hTask: plash('The task'),
+      task: 'Build an AI agent — a Telegram bot or a web service — that answers questions about exchange trades in Russian and Uzbek.',
+      chip1: 'Telegram bot', chip2: 'Web service',
+      c1t: 'Accurate and data-based', c1x: 'Answers must be correct and grounded in the data: exact numbers, names, codes.',
+      c2t: 'No answer? Say so', c2x: 'If the data has no answer, the agent must say so plainly instead of making something up.',
+      c3t: 'Your approach, your tools', c3x: 'How you build the agent and present the answers is up to you. You may use any tools, including LLMs and AI assistants.',
+      hData: plash('The data'),
+      data: 'The data folder is open, and the data is the same for all teams.',
+      bigV: '500,000', bigL: 'trades · in the spot.uzex.uz format', bigD: 'January 2022 — October 2026',
+      f1: 'Registry of exchange trades', f2: 'Contract cards', f3: 'Trading participants', f4: 'Brokers', f5: 'US dollar exchange rate', f6: 'README <span>— every field described in Russian and Uzbek</span>',
+      fict: 'All companies, taxpayer IDs and amounts are fictitious.',
+      hSubmit: plash('How to', 'submit'),
+      submit: 'Fill in the Google Form by 18:00 on November 5. The form asks for:',
+      fl1: 'A link to the prototype <span>— a Telegram bot or a web service.</span>', fl2: 'Team members <span>— first and last name of each, up to three people.</span>', fl3: 'A description of the solution <span>— which technologies and methods you used.</span>',
+      also: 'The form also asks for the team lead’s name and phone number — we will send the result to that number.',
+      nt1L: 'Important', nt1: 'The prototype must work without installation or sign-up.',
+      hCheck: plash('How we', 'test'),
+      check: 'From 18:00 on November 5, the committee asks each prototype 10 questions about the data — in Russian or Uzbek.',
+      k1: 'questions about the data', k2u: 'sec', k2: 'per answer, at most', k3: 'question language',
+      check2: 'Each answer gets up to 90 seconds. The questions are not published in advance.',
+      warnT: 'Warning', warn: 'If the agent makes up an answer — names a number, a company or a product where the data has no answer — the team is disqualified.',
+      hScore: plash('How we score', '100 points', 'bg-n'), scU: '/ 100 points',
+      sh1: 'What · what we look at', sh2: 'Points',
+      s1: 'Correct answers', s1x: '10 questions, 6 points each',
+      s2: 'Prototype quality', s2x: 'you can see what the answer is based on; understands Russian and Uzbek; convenient and fast',
+      s3: 'Solution description', s3x: 'it is clear which technologies and methods were used and how you checked the answers',
+      hDates: plash('Deadlines'), tlH1: 'When (Tashkent)', tlH2: 'What',
+      d2t: 'November 5, until 18:00', d2x: 'prototype submission via the Google Form',
+      d3t: 'November 5, from 18:00', d3x: 'the committee tests the prototypes',
+      d4t: 'November 6', d4x: 'results and invitations to teams',
+      d5t: 'November 7–8, from 09:00', d5x: 'the hackathon, in person in Tashkent — only for the 20 teams that make it through',
+      hRules: plash('Rules'),
+      r1: 'Up to three people per team.',
+      r2: 'Work only within your own team: do not share your code or prototype with other teams — we check for copied work.',
+      r3: 'The prototype must work at all times — as a Telegram bot or a web app.',
+      hFaq: plash('Questions', 'and answers'),
+      q1: 'Can we use ChatGPT, Claude and other LLMs?', a1: 'Yes, any tools and services.',
+      q2: 'Does it have to be a Telegram bot?', a2: 'No, a web service works too. What matters is that the committee can ask a question and get an answer without installing or signing up for anything.',
+      q3: 'Which language should it answer in?', a3: 'In the language of the question: questions will be in Russian and Uzbek.',
+      q4: 'Can we change the prototype after submitting?', a4: 'Until 18:00 on November 5 — yes, submit the form again. After 18:00 the prototype can no longer be changed.',
+      fText: 'UZEX AI Hackathon 2026 — an initiative of the Uzbek Republican Commodity Exchange', fTg: 'Telegram channel', fCopy: '© 2026 UZEX · Tashkent'
+    }
+  };
+
+  /* strings the script writes itself */
+  var S = {
+    uz: { results: 'Natijalar — 6-noyabr kuni.', dl: 'Topshirishgacha', over: 'Qabul yakunlandi',
+          nav: 'Saralash bosqichi', d: ' kun', h: ' soat', m: ' daqiqa', title: 'Saralash bosqichi — UZEX AI Hackathon 2026', back: 'UZEX AI Hackathon — asosiy sahifa', toc: 'Mundarija' },
+    ru: { results: 'Результаты — 6 ноября.', dl: 'До конца сдачи', over: 'Приём завершён',
+          nav: 'Отборочный тур', d: ' д', h: ' ч', m: ' мин', title: 'Отборочный тур — UZEX AI Hackathon 2026', back: 'UZEX AI Hackathon — главная страница', toc: 'Содержание' },
+    en: { results: 'Results: November 6.', dl: 'Submission closes in', over: 'Submissions closed',
+          nav: 'Qualifying round', d: ' d', h: ' h', m: ' min', title: 'Qualifying round — UZEX AI Hackathon 2026', back: 'UZEX AI Hackathon — home page', toc: 'Contents' }
+  };
+
+  var lang = 'uz', base = {};
+  var nodes = Array.prototype.slice.call(document.querySelectorAll('[data-i18n]'));
+  nodes.forEach(function (el) { var k = el.getAttribute('data-i18n'); if (base[k] == null) base[k] = el.innerHTML; });
+
+  /* no line starts with a dash, numbers stay with their nouns */
+  function typo(v) { return v.replace(/ — /g, ' — ').replace(/(\d) (?=[A-Za-zА-Яа-яЁёʻʼ])/g, '$1 '); }
+  function applyLang() {
+    var d = DICT[lang] || {};
+    nodes.forEach(function (el) { var k = el.getAttribute('data-i18n'), v = typo(d[k] != null ? d[k] : base[k]); if (el.innerHTML !== v) el.innerHTML = v; });
+    document.documentElement.lang = lang;
+    document.title = S[lang].title;
+    document.getElementById('langLabel').textContent = lang.toUpperCase();
+    document.querySelectorAll('[data-pick]').forEach(function (b) { b.setAttribute('aria-current', b.getAttribute('data-pick') === lang ? 'true' : 'false'); });
+    document.querySelectorAll('[data-keep-lang]').forEach(function (a) { a.setAttribute('href', '../' + (lang === 'uz' ? '' : '?lang=' + lang)); });
+    document.querySelector('.brand').setAttribute('aria-label', S[lang].back);
+    document.querySelector('.toc').setAttribute('aria-label', S[lang].toc);
+    document.querySelector('.nav-l').setAttribute('aria-label', S[lang].nav);
+    tick();
+  }
+  function setLang(l) {
+    if (!S[l]) return;
+    lang = l;
+    try { localStorage.setItem('uzexLang', l); } catch (e) { /* private mode */ }
+    try { var u = new URL(location.href); if (l === 'uz') u.searchParams.delete('lang'); else u.searchParams.set('lang', l); history.replaceState(null, '', u.toString()); } catch (e) { /* no URL API */ }
+    applyLang();
+  }
+  (function pickStart() {
+    var p = null;
+    try { var q = new URLSearchParams(location.search).get('lang'); if (q && S[q]) { p = q; try { localStorage.setItem('uzexLang', q); } catch (e2) { /* private mode */ } } } catch (e) { /* no URL API */ }
+    if (!p) { try { var v = localStorage.getItem('uzexLang'); if (v && S[v]) p = v; } catch (e) { /* storage blocked */ } }
+    lang = p || 'uz';
+  })();
+
+  /* language menu */
+  var langBox = document.getElementById('lang'), langBtn = document.getElementById('langBtn');
+  function openLang(o) { langBox.classList.toggle('open', o); langBtn.setAttribute('aria-expanded', o ? 'true' : 'false'); }
+  langBtn.addEventListener('click', function () { openLang(!langBox.classList.contains('open')); });
+  document.querySelectorAll('[data-pick]').forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-pick')); openLang(false); langBtn.focus(); }); });
+  document.addEventListener('click', function (e) { if (!langBox.contains(e.target)) openLang(false); });
+  langBox.addEventListener('focusout', function (e) { if (!langBox.contains(e.relatedTarget)) openLang(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && langBox.classList.contains('open')) { openLang(false); langBtn.focus(); } });
+
+  /* time: the form closes at 18:00 on 5 Nov; everything else is always open */
+  function span(ms) {
+    var s = S[lang], m = Math.max(0, Math.floor(ms / 60000)), d = Math.floor(m / 1440), h = Math.floor((m % 1440) / 60), mm = m % 60;
+    return (d ? d + s.d + ' ' : '') + (d || h ? h + s.h + ' ' : '') + (d ? '' : mm + s.m);
+  }
+  function setBtn(a, href, live, sub) {
+    var lab = a.querySelector('[data-i18n], #navCta');
+    a.classList.toggle('off', !live);
+    if (live) { a.setAttribute('href', href); ['aria-disabled', 'tabindex', 'role', 'aria-label'].forEach(function (n) { a.removeAttribute(n); }); }
+    else {
+      a.removeAttribute('href'); a.setAttribute('role', 'link'); a.setAttribute('aria-disabled', 'true'); a.setAttribute('tabindex', '-1');
+      var name = (lab || a).textContent.trim();
+      if (!a.parentNode.querySelector('.btn-sub') && name !== sub) a.setAttribute('aria-label', name + ' — ' + sub);   // buttons without a visible state line
+    }
+  }
+  var bar = document.getElementById('bar');
+  function tick() {
+    var t = now(), s = S[lang], formLive = t < T.close;
+    document.getElementById('navCta').textContent = formLive ? ((DICT[lang] || {}).bForm || base.bForm) : s.over;
+    document.querySelectorAll('[data-link="data"]').forEach(function (a) { setBtn(a, LINKS.data, true, ''); });
+    document.querySelectorAll('[data-link="form"]').forEach(function (a) { setBtn(a, LINKS.form, formLive, s.over); });
+    document.querySelectorAll('[data-sub="form"]').forEach(function (e) { e.textContent = formLive ? '' : s.over; });
+
+    document.getElementById('barL').textContent = formLive ? s.dl : s.over;
+    document.getElementById('barV').textContent = formLive ? span(T.close - t) : s.results.replace(/\.$/, '');
+    bar.style.display = t >= T.res ? 'none' : '';
+    bar.querySelector('.btn').style.display = formLive ? '' : 'none';
+
+    var over = { close: T.close, res: T.hack, hack: T.end };
+    document.querySelectorAll('[data-at]').forEach(function (el) { el.classList.toggle('past', t >= over[el.getAttribute('data-at')]); });
+    var rows = document.querySelectorAll('.tl-r'), cur = -1;
+    rows.forEach(function (r, i) { var b = T[r.getAttribute('data-to')]; r.classList.toggle('past', t >= b); if (cur < 0 && t < b) cur = i; });
+    rows.forEach(function (r, i) { r.classList.toggle('now', i === cur && t >= T[r.getAttribute('data-from')] - 12 * 3600000); });
+  }
+
+  /* FAQ */
+  document.querySelectorAll('.fq-h').forEach(function (h) {
+    h.addEventListener('click', function () {
+      var fq = h.parentNode, open = !fq.classList.contains('open');
+      fq.classList.toggle('open', open);
+      h.setAttribute('aria-expanded', open ? 'true' : 'false');
+      h.querySelector('.fq-s').textContent = open ? '−' : '+';
+    });
+  });
+
+  var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* runs fn(dt) on animation frames while el is on screen */
+  function whileVisible(el, fn) {
+    var on = false, raf = 0, last = 0;
+    function loop(ts) { if (!on) return; fn(ts - (last || ts), ts); last = ts; raf = requestAnimationFrame(loop); }
+    if (!('IntersectionObserver' in window)) { on = true; raf = requestAnimationFrame(loop); return; }
+    new IntersectionObserver(function (es) {
+      es.forEach(function (en) { if (en.isIntersecting && !on) { on = true; last = 0; raf = requestAnimationFrame(loop); } else if (!en.isIntersecting) { on = false; cancelAnimationFrame(raf); } });
+    }).observe(el);
+  }
+
+  /* pixel icons (7×7): each draws itself stroke by stroke, holds, and starts again */
+  var PATHS = {
+    ok: [[3, 0], [4, 1], [5, 2], [6, 2], [5, 3], [4, 4], [3, 5], [2, 6], [1, 6], [4, 0], [5, 1], [4, 3], [3, 4], [2, 5]],
+    no: [[0, 2], [0, 3], [0, 4], [1, 5], [2, 6], [3, 6], [4, 6], [5, 5], [6, 4], [6, 3], [6, 2], [5, 1], [4, 0], [3, 0], [2, 0], [1, 1], [2, 4], [3, 3], [4, 2]]
+  };
+  var COL = { ok: '#3DF08A', no: '#C9D3FF', tool: '#5E79E8' }, DIM = { ok: 'rgba(61,240,138,.28)', no: 'rgba(201,211,255,.28)' };
+  function sliderFrame(f) {   /* two sliders, knobs move in opposite directions */
+    var a = [1, 2, 3, 4, 5, 4, 3, 2][f % 8], b = 6 - a, g = [];
+    for (var r = 0; r < 7; r++) { var row = ''; for (var x = 0; x < 7; x++) row += (r === 1 || r === 5) ? '#' : ((r === 0 || r === 2) && x === a) || ((r === 4 || r === 6) && x === b) ? 'n' : '.'; g.push(row); }
+    return g;
+  }
+  document.querySelectorAll('[data-px]').forEach(function (host) {
+    var k = host.getAttribute('data-px'), big = host.classList.contains('ans-i'), sz = big ? '5px' : '6px', cells = [];
+    host.style.cssText += ';display:grid;gap:1px;grid-template-columns:repeat(7,' + sz + ');grid-auto-rows:' + sz;
+    for (var i = 0; i < 49; i++) { var b = document.createElement('b'); host.appendChild(b); cells.push(b); }
+    function paintPath(n) { PATHS[k].forEach(function (p, i) { cells[p[0] * 7 + p[1]].style.background = i < n ? COL[k] : DIM[k]; }); }
+    function paintGrid(g) { cells.forEach(function (c, i) { var ch = g[(i / 7) | 0][i % 7]; c.style.background = ch === '#' ? COL.tool : ch === 'n' ? '#3DF08A' : ''; }); }
+    if (k === 'tool') {
+      paintGrid(sliderFrame(0));
+      if (rm) return;
+      var acc = 0, f = 0;
+      whileVisible(host, function (dt) { acc += dt; if (acc > 150) { acc = 0; paintGrid(sliderFrame(++f)); } });
+    } else {
+      var N = PATHS[k].length;
+      paintPath(N);
+      if (rm) return;
+      var acc2 = 0, step = N, TOTAL = N + 22;   /* bright stroke draws over the dim glyph, then holds */
+      whileVisible(host, function (dt) {
+        acc2 += dt; if (acc2 < 80) return; acc2 = 0;
+        step = (step + 1) % TOTAL;
+        paintPath(Math.min(step, N));
+      });
+    }
+  });
+
+  /* score: 100 cells fill in order (60 · 20 · 20), the counter follows, the matching row lights up */
+  var mo = document.getElementById('mosaic'), scN = document.getElementById('scN'), mcells = [];
+  var srows = Array.prototype.slice.call(document.querySelectorAll('.srow'));
+  for (var i = 0; i < 100; i++) { var c = document.createElement('i'); c.className = i < 60 ? 'k0' : i < 80 ? 'k1' : 'k2'; mo.appendChild(c); mcells.push(c); }
+  function showScore(n) {
+    mcells.forEach(function (c, i) { c.classList.toggle('on', i < n); c.classList.toggle('lead', i === n - 1 && n < 100); });
+    scN.textContent = n;
+    var k = n === 0 ? -1 : n <= 60 ? 0 : n <= 80 ? 1 : 2;
+    srows.forEach(function (r) { r.classList.toggle('act', n < 100 && +r.getAttribute('data-k') === k); });
+  }
+  srows.forEach(function (r) {
+    r.addEventListener('mouseenter', function () { mo.classList.add('sel' + r.getAttribute('data-k')); });
+    r.addEventListener('mouseleave', function () { mo.classList.remove('sel0', 'sel1', 'sel2'); });
+  });
+  if (rm) showScore(100);
+  else {
+    showScore(0);
+    var sc = 0;   /* ms into the loop: 4 s filling, 2.6 s full, 0.6 s empty */
+    whileVisible(mo, function (dt) { sc = (sc + Math.min(dt, 100)) % 7200; showScore(sc < 4000 ? Math.ceil(sc / 40) : sc < 6600 ? 100 : 0); });
+  }
+
+  /* hero mosaic: the registry as 0/1, a scan line, found facts turn neon */
+  var grid = document.getElementById('illGrid'), COLS = 16, ROWS = 9, cells = [];
+  var sd = 20261104, rnd = function () { return (sd = (sd * 16807) % 2147483647) / 2147483647; };
+  for (var r = 0; r < ROWS; r++) for (var x = 0; x < COLS; x++) { var e = document.createElement('i'); e.textContent = rnd() < .5 ? '0' : '1'; grid.appendChild(e); cells.push({ el: e, x: x, hit: rnd() < .08 }); }
+  var ansOk = document.getElementById('ansOk'), ansNo = document.getElementById('ansNo');
+  if (rm) { cells.forEach(function (c) { if (c.hit) c.el.classList.add('hit'); }); ansOk.classList.add('on'); ansNo.classList.add('on'); }
+  else {
+    var hp = 0, last = -1, CYCLE = 7200;
+    whileVisible(grid, function (dt) {
+      hp += Math.min(dt, 100);
+      var p = hp % CYCLE, cyc = Math.floor(hp / CYCLE);
+      if (cyc !== last) { last = cyc; cells.forEach(function (c) { c.el.classList.remove('hit', 'scan', 'dim'); c.hit = rnd() < .08; if (rnd() < .25) c.el.textContent = rnd() < .5 ? '0' : '1'; }); ansOk.classList.remove('on'); ansNo.classList.remove('on'); }
+      var col = Math.floor((p / 3200) * (COLS + 1));
+      cells.forEach(function (c) {
+        if (c.x === col && p < 3200) c.el.classList.add('scan'); else c.el.classList.remove('scan');
+        if (c.x < col || p >= 3200) { if (c.hit) c.el.classList.add('hit'); else c.el.classList.add('dim'); }
+      });
+      if (p > 3400) ansOk.classList.add('on');
+      if (p > 4600) ansNo.classList.add('on');
+    });
+  }
+
+  /* reveal on scroll, contents highlight, nav shadow, phone bar */
+  var rvs = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window && !rm) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }); }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+    rvs.forEach(function (el) { io.observe(el); });
+  } else { rvs.forEach(function (el) { el.classList.add('in'); }); }
+
+  var secs = Array.prototype.slice.call(document.querySelectorAll('.sec'));
+  var links = document.querySelectorAll('.toc ol a');
+  var nav = document.getElementById('nav'), hero = document.getElementById('top');
+  function onScroll() {
+    var y = window.scrollY, vh = window.innerHeight, cur = '';
+    nav.classList.toggle('solid', y > 24);
+    bar.classList.toggle('show', y > hero.offsetHeight * .6);
+    secs.forEach(function (s) { if (s.getBoundingClientRect().top < vh * .35) cur = s.id; });
+    links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + cur); });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  applyLang();
+  onScroll();
+  setInterval(tick, 20000);
+})();
+</script>
+</body>
+</html>

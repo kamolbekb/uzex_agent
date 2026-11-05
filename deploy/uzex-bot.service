@@ -1,0 +1,20 @@
+[Unit]
+Description=UZEX AI Hackathon 2026 Telegram Data Agent Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/uzex_agent
+EnvironmentFile=/opt/uzex_agent/.env
+Environment=PYTHONUTF8=1
+ExecStart=/opt/uzex_agent/.venv/bin/python -X utf8 -m bot.main
+Restart=always
+RestartSec=5
+StandardOutput=append:/opt/uzex_agent/logs/bot_stdout.log
+StandardError=append:/opt/uzex_agent/logs/bot_stderr.log
+
+[Install]
+WantedBy=multi-user.target
+

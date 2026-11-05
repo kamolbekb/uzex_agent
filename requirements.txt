@@ -1,0 +1,6 @@
+duckdb>=1.1
+openai>=1.50
+aiogram>=3.13
+rapidfuzz>=3.9
+pyyaml>=6.0
+python-dotenv>=1.0

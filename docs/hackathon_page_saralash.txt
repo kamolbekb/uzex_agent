@@ -1,0 +1,197 @@
+Source: https://hackathon.uzex.uz/saralash/ (fetched 2026-11-04)
+
+Saralash bosqichi — UZEX AI Hackathon 2026
+Asosiy sahifa
+Telegram kanal
+UZ
+UZ
+RU
+EN
+Prototipni topshirish
+→
+←
+UZEX AI Hackathon 2026
+Saralash bosqichi
+Saralash
+bosqichi
+Birja bitimlari haqidagi savollarga aniq va faqat maʼlumotlar asosida javob beradigan AI-agent yarating.
+Prototipni topshirish:
+5-noyabr, 18:00 gacha
+Natijalar:
+6-noyabr
+Xakaton:
+7–8-noyabr, Toshkent
+Maʼlumotlarni yuklab olish
+↓
+Prototipni topshirish
+→
+Reyestr · 500 000 bitim
+spot.uzex.uz
+Javob maʼlumotdan
+Raqam · nom · kod
+Maʼlumotda javob yoʻq
+Agent buni ochiq aytadi
+01
+Saralash haqida
+02
+Topshiriq
+03
+Maʼlumotlar
+04
+Natijani topshirish
+05
+Tekshirish
+06
+Baholash · 100 ball
+07
+Muddatlar
+08
+Qoidalar
+09
+Savol va javoblar
+Saralash bosqichi
+Maʼlumotlarni yuklab oling, agentni yarating va prototipni 5-noyabr, 18:00 gacha topshiring.
+Maʼlumotlarni yuklab olish
+↓
+Prototipni topshirish
+→
+01
+Saralash bosqichi
+haqida
+UZEX AI Hackathonʼga hozirgacha 511 ta jamoa roʻyxatdan oʻtdi — ulardan faqat 20 tasi saralashdan oʻtib, xakatonda qatnashadi.
+Saralash — haqiqiy birja reyestri formatidagi maʼlumotlar asosida amaliy topshiriq: jamoalar bir kechada ishlaydigan prototip yaratadi, komissiya esa uni jonli savollar bilan tekshiradi. Xakaton 7–8-noyabr kunlari Toshkentda oflayn oʻtadi, boshlanishi soat 09:00 da.
+511
+jamoa roʻyxatdan oʻtdi
+20
+jamoa saralashdan oʻtadi
+60
+ishtirokchi xakatonda
+02
+Topshiriq
+Birja bitimlari haqidagi savollarga rus va oʻzbek tillarida javob beradigan AI-agent —
+Telegram-bot
+yoki veb-servis yarating.
+Telegram-bot
+Veb-servis
+RU + UZ
+Aniq va maʼlumotga asoslangan
+Javob toʻgʻri va maʼlumotlarga asoslangan boʻlishi kerak: aniq raqamlar, nomlar, kodlar.
+Javob yoʻqmi — shuni ayting
+Maʼlumotlarda javob boʻlmasa, agent buni ochiq aytishi kerak, oʻylab topmasligi kerak.
+Yondashuvni oʻzingiz tanlaysiz
+Agentni qanday qurish va javoblarni qanday taqdim etishni oʻzingiz hal qilasiz. Istalgan vositalardan, jumladan LLM va
+AI-yordamchilardan
+foydalanish mumkin.
+03
+Maʼlumotlar
+Maʼlumotlar papkasi ochiq va barcha jamoalar uchun bir xil.
+500 000
+ta bitim · spot.uzex.uz formatida
+2022-yil yanvar — 2026-yil oktabr
+Birja bitimlari reyestri
+Shartnoma kartochkalari
+Savdo ishtirokchilari
+Brokerlar
+Dollar kursi
+README
+— har bir maydon rus va oʻzbek tillarida tavsiflangan
+Barcha kompaniyalar, STIR va summalar oʻylab topilgan.
+Maʼlumotlarni yuklab olish
+↓
+04
+Natijani qanday
+topshirish kerak
+5-noyabr soat 18:00 gacha Google Formani toʻldiring. Formada:
+1
+Prototip havolasi
+— Telegram-bot yoki veb-servis.
+2
+Jamoa aʼzolari
+— har birining ismi va familiyasi, uch kishigacha.
+3
+Yechim tavsifi
+— qanday texnologiyalar va usullardan foydalandingiz.
+Formada yana jamoa rahbarining ismi va telefoni soʻraladi — natijani shu raqamga xabar qilamiz.
+Muhim
+Prototip oʻrnatish va roʻyxatdan oʻtishsiz ishlashi kerak.
+Prototipni topshirish
+→
+05
+Qanday
+tekshiramiz
+5-noyabr soat 18:00 dan komissiya har bir prototipga maʼlumotlar boʻyicha 10 ta savol beradi — rus yoki oʻzbek tilida.
+10
+savol maʼlumotlar boʻyicha
+90
+soniya
+har bir javobga, koʻpi bilan
+RU
+/
+UZ
+savollar tili
+Har bir javobga — 90 soniyagacha. Savollar oldindan eʼlon qilinmaydi.
+Diqqat
+Agent javobni oʻylab topsa — maʼlumotlarda javob yoʻq joyda raqam, kompaniya yoki tovar aytsa, — jamoa saralashdan chiqadi.
+06
+Qanday baholaymiz
+100 ball
+0
+/ 100 ball
+Nima · nimaga qaraymiz
+Ball
+Toʻgʻri javoblar
+60
+10 ta savol, har biri 6 ball
+Prototip sifati
+20
+javob nimaga asoslangani koʻrinadi; rus va oʻzbek tillarini tushunadi; qulay va tez
+Yechim tavsifi
+20
+qanday texnologiya va usullar ishlatilgani va javoblar qanday tekshirilgani tushunarli
+07
+Muddatlar
+Qachon (Toshkent)
+Nima
+5-noyabr, 18:00 gacha
+prototipni Google Forma orqali topshirish
+5-noyabr, 18:00 dan
+komissiya prototiplarni tekshiradi
+6-noyabr
+natijalar va jamoalarga taklifnomalar
+7–8-noyabr, 09:00 dan
+xakaton, Toshkentda oflayn — faqat saralashdan oʻtgan 20 ta jamoa uchun
+08
+Qoidalar
+01
+Jamoada — uch kishigacha.
+02
+Faqat oʻz jamoangiz bilan ishlang: kod va prototipni boshqalarga bermang — mosliklarni koʻramiz.
+03
+Prototip doim ishlab turishi kerak —
+Telegram-bot
+yoki veb-ilova koʻrinishida.
+09
+Savol va
+javoblar
+−
+ChatGPT, Claude va boshqa LLMʼlardan foydalansa boʻladimi?
+Ha, istalgan vosita va servislardan.
++
+Albatta
+Telegram-bot
+qilish kerakmi?
+Yoʻq, veb-servis ham boʻladi. Asosiysi — komissiya oʻrnatish va roʻyxatdan oʻtishsiz savol berib, javob ola olsin.
++
+Qaysi tilda javob berish kerak?
+Savol qaysi tilda boʻlsa, oʻsha tilda: savollar rus va oʻzbek tillarida boʻladi.
++
+Topshirgandan keyin prototipni oʻzgartirsa boʻladimi?
+5-noyabr soat 18:00 gacha — ha, formani qayta yuboring. Soat 18:00 dan keyin prototipni oʻzgartirib boʻlmaydi.
+UZEX AI Hackathon 2026 — Oʻzbekiston respublika tovar-xom ashyo birjasi tashabbusi
+Asosiy sahifa
+Telegram kanal
+© 2026 UZEX · Toshkent
+Topshirishgacha
+—
+Topshirish
+→
