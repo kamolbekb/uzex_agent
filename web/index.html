@@ -21,7 +21,7 @@
       --warn: #FFB547;
       --white: #FFFFFF;
       --line: rgba(201, 211, 255, .14);
-      --line2: rgba(201, 211, 255, .30);
+      --line2: rgba(201, 211, 255, .28);
     }
 
     *, *::before, *::after {
@@ -31,7 +31,7 @@
     }
 
     html, body {
-      min-height: 100vh;
+      height: 100%;
       background: var(--ink);
       color: var(--white);
       font-family: 'Onest', system-ui, -apple-system, sans-serif;
@@ -44,9 +44,10 @@
       display: flex;
       flex-direction: column;
       background-image:
-        linear-gradient(to right, rgba(201, 211, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(201, 211, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(to right, rgba(201, 211, 255, 0.028) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(201, 211, 255, 0.028) 1px, transparent 1px);
       background-size: 52px 52px;
+      overflow: hidden;
     }
 
     ::selection {
@@ -62,48 +63,43 @@
     .mono {
       font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
       letter-spacing: .04em;
-      text-transform: uppercase;
     }
 
-    .wrap {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0 28px;
-      width: 100%;
-    }
-
-    /* ─── TOPBAR (Saralash Style) ─── */
+    /* ─── TOPBAR ─── */
     .top {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(12, 16, 51, .90);
-      backdrop-filter: blur(10px);
+      flex: 0 0 64px;
+      background: rgba(12, 16, 51, .92);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--line);
+      z-index: 40;
     }
 
     .top-in {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 66px;
-      gap: 20px;
+      gap: 16px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       font-weight: 700;
       letter-spacing: -.01em;
+      cursor: pointer;
     }
 
     .mark {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       position: relative;
       display: inline-block;
-      flex: 0 0 28px;
+      flex: 0 0 26px;
     }
 
     .mark::before, .mark::after {
@@ -123,17 +119,41 @@
     }
 
     .brand .sub {
-      color: var(--peri);
+      color: var(--peri-l);
       font-weight: 500;
-      font-size: 12px;
-      padding-left: 14px;
+      font-size: 11.5px;
+      padding-left: 12px;
       border-left: 1px solid var(--line2);
+      text-transform: uppercase;
     }
 
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: transparent;
+      color: var(--peri);
+      border: 1px solid var(--line2);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      padding: 7px 13px;
+      cursor: pointer;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--neon);
+      color: var(--neon);
+      background: rgba(61, 240, 138, .05);
     }
 
     .lang {
@@ -146,11 +166,11 @@
       border: 0;
       color: var(--peri);
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
-      padding: 7px 11px;
+      padding: 7px 10px;
       cursor: pointer;
-      letter-spacing: .06em;
+      letter-spacing: .05em;
       transition: background .15s, color .15s;
     }
 
@@ -159,72 +179,47 @@
       color: var(--ink);
     }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      padding: 10px 18px;
-      border: 0;
-      cursor: pointer;
-      transition: background .15s ease, color .15s ease, box-shadow .15s ease;
+    /* ─── SCROLLABLE CHAT AREA ─── */
+    .chat-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 20px 32px;
+      scroll-behavior: smooth;
     }
 
-    .btn-n {
-      background: var(--neon);
-      color: var(--ink);
-    }
-
-    .btn-n:hover:not(:disabled) {
-      background: #fff;
-      box-shadow: 0 0 0 2px var(--neon);
-    }
-
-    .btn-n:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
-
-    .btn-g {
-      background: transparent;
-      color: #fff;
-      box-shadow: inset 0 0 0 1px rgba(201, 211, 255, .36);
-    }
-
-    .btn-g:hover {
-      box-shadow: inset 0 0 0 1px var(--neon);
-      color: var(--neon);
-    }
-
-    /* ─── HERO & ARCHITECTURAL SPEC STRIP ─── */
-    .hero {
-      padding: 36px 0 0;
-    }
-
-    .tag-row {
+    .chat-inner {
+      max-width: 880px;
+      margin: 0 auto;
+      width: 100%;
+      min-height: 100%;
       display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
+      flex-direction: column;
     }
 
-    .tag {
+    /* ─── WELCOME STATE (Centered when empty) ─── */
+    .welcome-screen {
+      margin: auto 0;
+      padding: 20px 0 28px;
+    }
+
+    .welcome-Screen-hidden {
+      display: none !important;
+    }
+
+    .tag-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 5px 11px;
+      padding: 4px 11px;
       background: var(--blue-d);
       color: var(--peri);
       font-size: 11px;
       border: 1px solid rgba(201, 211, 255, .22);
+      margin-bottom: 16px;
+      text-transform: uppercase;
     }
 
-    .tag .dot {
+    .tag-badge .dot {
       width: 7px;
       height: 7px;
       background: var(--neon);
@@ -232,9 +227,10 @@
 
     h1.display {
       font-weight: 700;
-      font-size: clamp(28px, 4vw, 46px);
+      font-size: clamp(26px, 3.8vw, 42px);
       line-height: 1.08;
       letter-spacing: -.025em;
+      margin-bottom: 14px;
     }
 
     .pl {
@@ -248,417 +244,428 @@
     .pl.bg-b { background: var(--blue); color: #fff; }
     .pl.bg-n { background: var(--neon); color: var(--ink); }
 
-    .hero-sub {
-      margin-top: 14px;
-      font-size: 15.5px;
+    .welcome-sub {
+      font-size: 15px;
       color: var(--peri);
-      max-width: 72ch;
+      max-width: 68ch;
+      margin-bottom: 24px;
     }
 
-    /* Spec Strip (Directly modeled after .spec in hackathon_page_saralash.html) */
+    /* Compact 4-Metric Strip inside Welcome */
     .spec-strip {
-      margin-top: 28px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       border: 1px solid var(--line2);
       background: rgba(18, 26, 78, .65);
+      margin-bottom: 26px;
     }
 
     .spec-cell {
-      padding: 15px 20px;
+      padding: 12px 16px;
       border-right: 1px solid var(--line);
     }
 
-    .spec-cell:last-child {
-      border-right: 0;
-    }
+    .spec-cell:last-child { border-right: 0; }
 
     .spec-cell .k {
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--peri-l);
-      margin-bottom: 4px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
     }
 
     .spec-cell .v {
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 700;
-      letter-spacing: -.02em;
       color: var(--white);
     }
 
-    .spec-cell .v .accent {
-      color: var(--neon);
-    }
+    .spec-cell .v .accent { color: var(--neon); }
 
-    /* ─── MAIN WORKSPACE ─── */
-    main {
-      flex: 1;
-      padding: 28px 0 64px;
-    }
-
-    .console-card {
-      background: var(--ink2);
-      border: 1px solid var(--line2);
-      margin-bottom: 24px;
-    }
-
-    .console-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 11px 20px;
-      background: var(--ink3);
-      border-bottom: 1px solid var(--line);
+    .starters-title {
       font-size: 11px;
       color: var(--peri-l);
+      text-transform: uppercase;
+      margin-bottom: 10px;
     }
 
-    .console-head-left {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      color: var(--peri);
-      font-weight: 600;
-    }
-
-    .console-head-left .sq {
-      width: 8px;
-      height: 8px;
-      background: var(--neon);
-      display: inline-block;
-    }
-
-    .console-body {
-      padding: 20px;
-    }
-
-    .input-row {
-      display: flex;
-      gap: 12px;
-    }
-
-    .query-input-wrap {
-      flex: 1;
-      position: relative;
-      display: flex;
-      align-items: center;
-      background: var(--ink);
-      border: 1px solid var(--line2);
-      transition: border-color .15s, box-shadow .15s;
-    }
-
-    .query-input-wrap:focus-within {
-      border-color: var(--neon);
-      box-shadow: 0 0 0 1px var(--neon);
-    }
-
-    .prompt-chevron {
-      padding-left: 16px;
-      color: var(--neon);
-      font-family: 'IBM Plex Mono', monospace;
-      font-weight: 600;
-      font-size: 15px;
-      user-select: none;
-    }
-
-    #questionInput {
-      width: 100%;
-      background: transparent;
-      border: 0;
-      color: var(--white);
-      font-family: 'Onest', sans-serif;
-      font-size: 16px;
-      padding: 15px 40px 15px 12px;
-      outline: none;
-    }
-
-    #questionInput::placeholder {
-      color: rgba(201, 211, 255, .42);
-    }
-
-    .clear-btn {
-      position: absolute;
-      right: 12px;
-      background: transparent;
-      border: 0;
-      color: var(--peri-l);
-      font-size: 14px;
-      cursor: pointer;
-      padding: 4px 6px;
-      display: none;
-    }
-
-    .clear-btn:hover {
-      color: var(--white);
-    }
-
-    .ask-btn {
-      padding: 0 26px;
-      min-height: 52px;
-      white-space: nowrap;
-    }
-
-    /* Example Chips */
-    .examples-row {
-      margin-top: 14px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .chip {
-      background: rgba(12, 16, 51, .65);
-      border: 1px solid var(--line2);
-      color: var(--peri);
-      font-family: 'Onest', sans-serif;
-      font-size: 13px;
-      padding: 6px 12px;
-      cursor: pointer;
-      transition: all .14s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .chip:hover {
-      border-color: var(--neon);
-      color: var(--white);
-      background: var(--ink3);
-    }
-
-    .chip .chip-tag {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      color: var(--neon);
-      opacity: 0.9;
-    }
-
-    /* ─── LOADING BAR ─── */
-    .loading-bar {
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      background: var(--ink2);
-      border: 1px solid var(--neon);
-      margin-bottom: 24px;
-    }
-
-    .loading-bar.active {
-      display: flex;
-    }
-
-    .loading-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 13px;
-      color: var(--neon);
-    }
-
-    .pulse-sq {
-      width: 10px;
-      height: 10px;
-      background: var(--neon);
-      animation: pulseNeon 0.85s infinite alternate;
-    }
-
-    @keyframes pulseNeon {
-      0% { opacity: 0.25; transform: scale(0.9); }
-      100% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 10px var(--neon); }
-    }
-
-    /* ─── RESULT & EVIDENCE CARD ─── */
-    .result-container {
-      display: none;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .result-container.visible {
-      display: flex;
-    }
-
-    .answer-card {
-      background: var(--ink2);
-      border: 1px solid var(--line2);
-      border-left: 4px solid var(--neon);
-    }
-
-    .answer-card.not-found {
-      border-left-color: var(--warn);
-    }
-
-    .answer-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 22px;
-      background: var(--ink3);
-      border-bottom: 1px solid var(--line);
-      flex-wrap: wrap;
+    .starters-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 10px;
+    .starter-card {
+      background: var(--ink2);
+      border: 1px solid var(--line2);
+      padding: 14px 16px;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color .15s, background .15s, transform .12s;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .starter-card:hover {
+      border-color: var(--neon);
+      background: var(--ink3);
+      transform: translateY(-1px);
+    }
+
+    .starter-card-cat {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 10.5px;
+      color: var(--neon);
       text-transform: uppercase;
       letter-spacing: .05em;
     }
 
-    .badge-verified {
-      background: rgba(61, 240, 138, .14);
-      color: var(--neon);
-      border: 1px solid rgba(61, 240, 138, .4);
-    }
-
-    .badge-warn {
-      background: rgba(255, 181, 71, .14);
-      color: var(--warn);
-      border: 1px solid rgba(255, 181, 71, .4);
-    }
-
-    .asked-question {
-      padding: 16px 24px 0;
-      font-size: 13px;
-      color: var(--peri-l);
-      font-family: 'IBM Plex Mono', monospace;
-    }
-
-    .answer-body {
-      padding: 14px 24px 22px;
-      font-size: 17px;
-      line-height: 1.65;
+    .starter-card-q {
+      font-size: 14px;
       color: var(--white);
-      white-space: pre-wrap;
+      font-weight: 500;
+      line-height: 1.4;
     }
 
-    /* 4-Cell Evidence Strip (Judges Requirement) */
-    .evidence-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid var(--line2);
-      background: rgba(12, 16, 51, .55);
+    /* ─── CHAT MESSAGES THREAD ─── */
+    .messages-list {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      padding-bottom: 12px;
     }
 
-    .ev-cell {
-      padding: 14px 18px;
-      border-right: 1px solid var(--line);
+    .msg-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      animation: fadeIn .18s ease-out;
     }
 
-    .ev-cell:last-child {
-      border-right: 0;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .ev-label {
-      font-size: 10.5px;
-      color: var(--peri-l);
-      margin-bottom: 4px;
+    .msg-row.user {
+      justify-content: flex-end;
     }
 
-    .ev-val {
-      font-size: 13.5px;
-      font-weight: 600;
+    .user-bubble {
+      max-width: 76%;
+      background: var(--blue);
+      border: 1px solid var(--blue-l);
       color: var(--white);
+      padding: 13px 18px;
+      font-size: 15.5px;
+      line-height: 1.5;
       word-break: break-word;
     }
 
-    .ev-val.mono-num {
-      font-family: 'IBM Plex Mono', monospace;
+    .ai-avatar {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+      background: var(--ink2);
+      border: 1px solid var(--line2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .ai-avatar .mark-sm {
+      width: 18px;
+      height: 18px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .ai-avatar .mark-sm::before, .ai-avatar .mark-sm::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+
+    .ai-avatar .mark-sm::before {
+      background: linear-gradient(90deg, #00C46A 0 50%, #3DF08A 50% 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+    }
+
+    .ai-avatar .mark-sm::after {
+      background: linear-gradient(90deg, #5E79E8 0 50%, #3A55C8 50% 100%);
+      clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+    }
+
+    .ai-card {
+      flex: 1;
+      min-width: 0;
+      background: var(--ink2);
+      border: 1px solid var(--line2);
+      border-left: 3px solid var(--neon);
+    }
+
+    .ai-card.not-found {
+      border-left-color: var(--warn);
+    }
+
+    .ai-prose {
+      padding: 18px 20px;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--white);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* ─── LIVE STEP-BY-STEP THINKING INDICATOR ─── */
+    .thinking-box {
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .thinking-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--neon);
+      text-transform: uppercase;
+    }
+
+    .thinking-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding-top: 6px;
+      border-top: 1px solid var(--line);
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      color: rgba(201, 211, 255, .45);
+      transition: color .2s;
+    }
+
+    .step-item.active {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .step-item.done {
       color: var(--neon);
     }
 
-    /* ─── TABS FOR DATA TABLE & SQL ─── */
-    .inspector-box {
-      background: var(--ink2);
-      border: 1px solid var(--line2);
+    .step-icon {
+      width: 14px;
+      height: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
     }
 
-    .inspector-tabs {
+    .step-item.active .step-icon::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--neon);
+      animation: pulseSq .75s infinite alternate;
+    }
+
+    .step-item.done .step-icon::before {
+      content: "✓";
+      color: var(--neon);
+      font-weight: 700;
+    }
+
+    .step-item.pending .step-icon::before {
+      content: "·";
+    }
+
+    @keyframes pulseSq {
+      from { opacity: .3; transform: scale(.85); }
+      to { opacity: 1; transform: scale(1.1); box-shadow: 0 0 8px var(--neon); }
+    }
+
+    /* ─── EVIDENCE FOOTER & ACCORDION INSIDE AI BUBBLE ─── */
+    .ai-meta-bar {
+      padding: 10px 20px;
+      background: rgba(12, 16, 51, .55);
+      border-top: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12.5px;
+      color: var(--peri-l);
+    }
+
+    .meta-pills {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .verified-tag {
+      color: var(--neon);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .verified-tag.warn {
+      color: var(--warn);
+    }
+
+    .meta-kv b {
+      color: var(--white);
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+    }
+
+    .expand-ev-btn {
+      background: var(--ink3);
+      border: 1px solid var(--line2);
+      color: var(--peri);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 11px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: border-color .15s, color .15s;
+    }
+
+    .expand-ev-btn:hover {
+      border-color: var(--neon);
+      color: var(--neon);
+    }
+
+    .evidence-drawer {
+      display: none;
+      border-top: 1px solid var(--line2);
+      background: #090D2A;
+    }
+
+    .evidence-drawer.open {
+      display: block;
+    }
+
+    .ev-summary-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid var(--line);
+      background: rgba(18, 26, 78, .5);
+    }
+
+    .ev-sum-cell {
+      padding: 10px 16px;
+      border-right: 1px solid var(--line);
+      font-size: 12.5px;
+    }
+
+    .ev-sum-cell:last-child { border-right: 0; }
+
+    .ev-sum-cell .lbl {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--peri-l);
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .ev-sum-cell .val {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .drawer-tabs {
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: var(--ink3);
       border-bottom: 1px solid var(--line);
-      padding-right: 14px;
+      padding-right: 12px;
     }
 
-    .tab-btns {
+    .drawer-tab-btns {
       display: flex;
     }
 
-    .tab-btn {
+    .d-tab {
       background: transparent;
       border: 0;
       border-right: 1px solid var(--line);
       color: var(--peri-l);
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 600;
-      padding: 11px 18px;
+      padding: 9px 15px;
       cursor: pointer;
       text-transform: uppercase;
-      letter-spacing: .04em;
-      transition: background .15s, color .15s;
     }
 
-    .tab-btn.active {
-      background: var(--ink2);
+    .d-tab.active {
+      background: #090D2A;
       color: var(--neon);
       box-shadow: inset 0 2px 0 var(--neon);
     }
 
-    .mini-btn {
+    .copy-mini {
       background: var(--ink);
       border: 1px solid var(--line2);
       color: var(--peri);
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      padding: 4px 10px;
+      font-size: 10.5px;
+      padding: 3px 9px;
       cursor: pointer;
     }
 
-    .mini-btn:hover {
+    .copy-mini:hover {
       border-color: var(--neon);
       color: var(--neon);
     }
 
-    .tab-pane {
+    .d-pane {
       display: none;
     }
 
-    .tab-pane.active {
+    .d-pane.active {
       display: block;
     }
 
-    .sql-pre {
-      padding: 18px 22px;
-      background: #080B24;
+    .sql-code {
+      padding: 14px 18px;
       color: var(--neon);
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 13px;
-      line-height: 1.6;
+      font-size: 12.5px;
+      line-height: 1.55;
       overflow-x: auto;
       white-space: pre-wrap;
       word-break: break-word;
     }
 
-    .table-wrap {
+    .table-scroll {
       overflow-x: auto;
-      max-height: 360px;
+      max-height: 300px;
       overflow-y: auto;
     }
 
     table.data-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 13px;
+      font-size: 12.5px;
       text-align: left;
     }
 
@@ -668,24 +675,20 @@
       background: #0E1542;
       color: var(--peri);
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
+      font-size: 10.5px;
       text-transform: uppercase;
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-bottom: 1px solid var(--line2);
       border-right: 1px solid var(--line);
       white-space: nowrap;
     }
 
     table.data-table td {
-      padding: 9px 14px;
+      padding: 7px 12px;
       border-bottom: 1px solid var(--line);
       border-right: 1px solid var(--line);
       color: var(--white);
       font-variant-numeric: tabular-nums;
-    }
-
-    table.data-table tr:hover td {
-      background: rgba(58, 85, 200, .16);
     }
 
     table.data-table td.num-col {
@@ -694,31 +697,94 @@
       color: var(--neon);
     }
 
-    /* ─── FOOTER ─── */
-    footer {
+    /* ─── BOTTOM-PINNED CHAT COMPOSER ─── */
+    .composer-dock {
+      flex: 0 0 auto;
+      background: rgba(12, 16, 51, .94);
+      backdrop-filter: blur(12px);
       border-top: 1px solid var(--line);
-      padding: 20px 0;
-      font-size: 12px;
-      color: var(--peri-l);
+      padding: 14px 20px 16px;
+      z-index: 40;
     }
 
-    .foot-in {
+    .composer-in {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .composer-box {
+      display: flex;
+      align-items: stretch;
+      gap: 10px;
+      background: var(--ink2);
+      border: 1px solid var(--line2);
+      padding: 6px 6px 6px 16px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .composer-box:focus-within {
+      border-color: var(--neon);
+      box-shadow: 0 0 0 1px var(--neon);
+    }
+
+    #chatInput {
+      flex: 1;
+      background: transparent;
+      border: 0;
+      color: var(--white);
+      font-family: 'Onest', sans-serif;
+      font-size: 15.5px;
+      padding: 8px 0;
+      outline: none;
+    }
+
+    #chatInput::placeholder {
+      color: rgba(201, 211, 255, .42);
+    }
+
+    .send-btn {
+      background: var(--neon);
+      color: var(--ink);
+      border: 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 0 22px;
+      cursor: pointer;
+      transition: background .15s;
+      white-space: nowrap;
+    }
+
+    .send-btn:hover:not(:disabled) {
+      background: #fff;
+    }
+
+    .send-btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .composer-foot {
+      margin-top: 8px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
+      font-size: 11px;
+      color: var(--peri-l);
     }
 
-    @media (max-width: 860px) {
-      .spec-strip, .evidence-grid { grid-template-columns: repeat(2, 1fr); }
-      .spec-cell, .ev-cell { border-bottom: 1px solid var(--line); }
-    }
-
-    @media (max-width: 600px) {
-      .input-row { flex-direction: column; }
-      .spec-strip, .evidence-grid { grid-template-columns: 1fr; }
+    @media (max-width: 760px) {
+      .spec-strip, .starters-grid, .ev-summary-row {
+        grid-template-columns: 1fr;
+      }
+      .spec-cell, .ev-sum-cell {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
       .brand .sub { display: none; }
+      .user-bubble { max-width: 90%; }
     }
   </style>
 </head>
@@ -726,328 +792,191 @@
 
   <!-- TOPBAR -->
   <header class="top">
-    <div class="wrap top-in">
-      <a href="/" class="brand">
+    <div class="top-in">
+      <div class="brand" onclick="clearChat()" title="На главную">
         <span class="mark"></span>
         <span>UZEX AI AGENT</span>
         <span class="sub mono" id="navSub">HACKATHON 2026 · SARALASH</span>
-      </a>
+      </div>
 
       <div class="top-actions">
+        <button type="button" class="btn-ghost" id="newChatBtn" onclick="clearChat()">
+          + НОВЫЙ ЧАТ
+        </button>
+
         <div class="lang" role="group" aria-label="Language">
           <button type="button" id="langRuBtn" class="on" onclick="setUILang('ru')">RU</button>
           <button type="button" id="langUzBtn" onclick="setUILang('uz')">UZ</button>
         </div>
 
-        <a href="https://t.me/uzex_selection_agent_bot" target="_blank" rel="noopener" class="btn btn-g">
-          <span>TELEGRAM BOT ↗</span>
+        <a href="https://t.me/uzex_selection_agent_bot" target="_blank" rel="noopener" class="btn-ghost">
+          <span>TELEGRAM ↗</span>
         </a>
       </div>
     </div>
   </header>
 
-  <!-- HERO + ARCHITECTURAL SPEC STRIP -->
-  <section class="hero">
-    <div class="wrap">
-      <div class="tag-row mono">
-        <span class="tag"><span class="dot"></span> <span id="heroTag">UZEX AI HACKATHON 2026 · ОТБОРОЧНЫЙ ЭТАП</span></span>
+  <!-- SCROLLABLE CHAT AREA -->
+  <div class="chat-scroll" id="chatScroll">
+    <div class="chat-inner">
+
+      <!-- WELCOME SCREEN (Shown when thread is empty) -->
+      <div class="welcome-screen" id="welcomeScreen">
+        <div class="tag-badge mono">
+          <span class="dot"></span>
+          <span id="heroTag">UZEX AI HACKATHON 2026 · ОТБОРОЧНЫЙ ЭТАП</span>
+        </div>
+
+        <h1 class="display" id="heroHeadline">
+          <span class="pl bg-w">ИИ-АНАЛИТИК</span>
+          <span class="pl bg-b">БИРЖЕВЫХ ДАННЫХ</span>
+          <span class="pl bg-n">UZEX</span>
+        </h1>
+
+        <p class="welcome-sub" id="heroDesc">
+          Задайте любой аналитический вопрос на <b>русском</b> или <b>узбекском</b> языке по реестру из 500 000 биржевых сделок (03.01.2022 – 30.10.2026). Агент выполняет точный SQL-запрос к DuckDB, проверяет каждое число и показывает доказательную базу.
+        </p>
+
+        <div class="spec-strip">
+          <div class="spec-cell">
+            <div class="k mono" id="s1k">// ОБЪЁМ РЕЕСТРА</div>
+            <div class="v">500 000 <span class="accent" id="s1v">сделок</span></div>
+          </div>
+          <div class="spec-cell">
+            <div class="k mono" id="s2k">// ПЕРИОД ДАННЫХ</div>
+            <div class="v">2022 – 2026 <span class="accent" id="s2v">гг.</span></div>
+          </div>
+          <div class="spec-cell">
+            <div class="k mono" id="s3k">// УЧАСТНИКИ И БРОКЕРЫ</div>
+            <div class="v">14 392 <span class="accent">+ 120</span></div>
+          </div>
+          <div class="spec-cell">
+            <div class="k mono" id="s4k">// КОНТРАКТЫ И РЕГИОНЫ</div>
+            <div class="v">6 616 <span class="accent">· 14</span></div>
+          </div>
+        </div>
+
+        <div class="starters-title mono" id="startersTitle">// ВЫБЕРИТЕ ПРИМЕР ИЛИ НАПИШИТЕ СВОЙ ВОПРОС ВНИЗУ:</div>
+        <div class="starters-grid" id="startersGrid"></div>
       </div>
 
-      <h1 class="display" id="heroHeadline">
-        <span class="pl bg-w">ИИ-АНАЛИТИК</span>
-        <span class="pl bg-b">БИРЖЕВЫХ ДАННЫХ</span>
-        <span class="pl bg-n">UZEX</span>
-      </h1>
-
-      <p class="hero-sub" id="heroDesc">
-        Задайте вопрос на <b>русском</b> или <b>узбекском</b> языке по реестру сделок. Каждый ответ рассчитывается через точный SQL-запрос к DuckDB и сопровождается доказательной базой.
-      </p>
-
-      <div class="spec-strip">
-        <div class="spec-cell">
-          <div class="k mono" id="s1k">// ОБЪЁМ РЕЕСТРА</div>
-          <div class="v">500 000 <span class="accent" id="s1v">сделок</span></div>
-        </div>
-        <div class="spec-cell">
-          <div class="k mono" id="s2k">// ПЕРИОД ДАННЫХ</div>
-          <div class="v">2022 – 2026 <span class="accent" id="s2v">гг.</span></div>
-        </div>
-        <div class="spec-cell">
-          <div class="k mono" id="s3k">// УЧАСТНИКИ И БРОКЕРЫ</div>
-          <div class="v">14 392 <span class="accent">+ 120</span></div>
-        </div>
-        <div class="spec-cell">
-          <div class="k mono" id="s4k">// КОНТРАКТЫ И РЕГИОНЫ</div>
-          <div class="v">6 616 <span class="accent">· 14</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MAIN WORKSPACE -->
-  <main>
-    <div class="wrap">
-
-      <!-- QUERY CONSOLE -->
-      <div class="console-card">
-        <div class="console-head mono">
-          <div class="console-head-left">
-            <span class="sq"></span>
-            <span id="consoleTitle">ПОИСК И АНАЛИТИКА ПО РЕЕСТРУ СДЕЛОК</span>
-          </div>
-          <span>DUCKDB · SQL VERIFIED</span>
-        </div>
-
-        <div class="console-body">
-          <form id="queryForm" onsubmit="submitQuestion(event)">
-            <div class="input-row">
-              <div class="query-input-wrap">
-                <span class="prompt-chevron">&gt;_</span>
-                <input
-                  type="text"
-                  id="questionInput"
-                  placeholder="Например: Какой объём и сумма сделок по хлопку-сырцу в 2025 году?"
-                  autocomplete="off"
-                  required
-                />
-                <button type="button" class="clear-btn" id="clearBtn" onclick="clearInput()" title="Очистить">✕</button>
-              </div>
-              <button type="submit" class="btn btn-n ask-btn" id="submitBtn">
-                <span id="submitBtnText">ВЫПОЛНИТЬ ЗАПРОС →</span>
-              </button>
-            </div>
-          </form>
-
-          <div class="examples-row" id="chipsContainer"></div>
-        </div>
-      </div>
-
-      <!-- LOADING BAR -->
-      <div class="loading-bar mono" id="loadingPanel">
-        <div class="loading-left">
-          <span class="pulse-sq"></span>
-          <span id="loadingStepText">ВЫПОЛНЯЕТСЯ SQL-ЗАПРОС И ПРОВЕРКА ДАННЫХ...</span>
-        </div>
-        <span id="loadingTimer" style="color:var(--white); font-weight:600;">0.0s</span>
-      </div>
-
-      <!-- RESULT & EVIDENCE -->
-      <div class="result-container" id="resultContainer">
-
-        <div class="answer-card" id="answerCard">
-          <div class="answer-header">
-            <span class="badge badge-verified" id="verifierBadge">✓ VERIFIED SQL GROUNDED</span>
-            <span class="mono" style="font-size: 11.5px; color: var(--peri-l);" id="metaHeaderRight">
-              MODEL: — · 0.00s
-            </span>
-          </div>
-
-          <div class="asked-question" id="askedQuestionDisplay"></div>
-          <div class="answer-body" id="answerBody"></div>
-
-          <!-- 4-Column Evidence Strip -->
-          <div class="evidence-grid">
-            <div class="ev-cell">
-              <div class="ev-label mono" id="evLabelFilters">// ФИЛЬТРЫ</div>
-              <div class="ev-val" id="evFilters">—</div>
-            </div>
-            <div class="ev-cell">
-              <div class="ev-label mono" id="evLabelCount">// НАЙДЕНО СДЕЛОК</div>
-              <div class="ev-val mono-num" id="evDealsCount">0</div>
-            </div>
-            <div class="ev-cell">
-              <div class="ev-label mono" id="evLabelSamples">// ПРИМЕРЫ СДЕЛОК</div>
-              <div class="ev-val mono-num" id="evSampleDeals">—</div>
-            </div>
-            <div class="ev-cell">
-              <div class="ev-label mono" id="evLabelEngine">// ВРЕМЯ РАСЧЁТА</div>
-              <div class="ev-val mono-num" id="evModelSpeed">—</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TABBED INSPECTOR (SQL QUERY & DATA TABLE) -->
-        <div class="inspector-box" id="inspectorBox" style="display:none;">
-          <div class="inspector-tabs">
-            <div class="tab-btns">
-              <button type="button" class="tab-btn active" id="tabBtnTable" onclick="switchTab('table')">
-                <span id="tabTableLabel">ТАБЛИЦА ДАННЫХ</span> (<span id="tableRowCount">0</span>)
-              </button>
-              <button type="button" class="tab-btn" id="tabBtnSql" onclick="switchTab('sql')">
-                <span id="tabSqlLabel">SQL-ЗАПРОС</span>
-              </button>
-            </div>
-            <button type="button" class="mini-btn" id="copySqlBtn" onclick="copySql()">COPY SQL</button>
-          </div>
-
-          <div class="tab-pane active" id="paneTable">
-            <div class="table-wrap">
-              <table class="data-table">
-                <thead id="sqlTableHead"></thead>
-                <tbody id="sqlTableBody"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="tab-pane" id="paneSql">
-            <pre class="sql-pre" id="sqlPreEl"></pre>
-          </div>
-        </div>
-
-      </div>
+      <!-- MESSAGES THREAD -->
+      <div class="messages-list" id="messagesList"></div>
 
     </div>
-  </main>
+  </div>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="wrap foot-in mono">
-      <span>UZEX AI HACKATHON 2026 · DUCKDB TEXT-TO-SQL AGENT</span>
-      <div>
+  <!-- BOTTOM-PINNED CHAT COMPOSER -->
+  <div class="composer-dock">
+    <div class="composer-in">
+      <form id="chatForm" onsubmit="handleSend(event)">
+        <div class="composer-box">
+          <input
+            type="text"
+            id="chatInput"
+            placeholder="Задайте вопрос по сделкам, товарам, регионам или участникам (RU / UZ)..."
+            autocomplete="off"
+            required
+          />
+          <button type="submit" class="send-btn" id="sendBtn">
+            <span id="sendBtnText">ОТПРАВИТЬ →</span>
+          </button>
+        </div>
+      </form>
+      <div class="composer-foot mono">
+        <span id="footLeft">DUCKDB 500K DEALS · АННУЛИРОВАННЫЕ СДЕЛКИ ИСКЛЮЧЕНЫ ПО УМОЛЧАНИЮ</span>
         <a href="https://t.me/uzex_selection_agent_bot" target="_blank" rel="noopener" style="color:var(--neon);">
           @uzex_selection_agent_bot ↗
         </a>
-        &nbsp;·&nbsp;
-        <a href="https://hackathon.uzex.uz/saralash/" target="_blank" rel="noopener">
-          HACKATHON.UZEX.UZ ↗
-        </a>
       </div>
     </div>
-  </footer>
+  </div>
 
   <script>
-    let currentUILang = 'ru';
-    let lastSqlText = '';
-    let lastResultData = null;
-    let timerInterval = null;
+    const STORAGE_KEY = 'uzex_chat_history_v2';
+    const LANG_KEY = 'uzex_ui_lang_v2';
+
+    let currentUILang = localStorage.getItem(LANG_KEY) || 'ru';
+    let chatHistory = [];
+    let isAsking = false;
 
     const UI_STRINGS = {
       ru: {
         navSub: 'HACKATHON 2026 · ОТБОРОЧНЫЙ ЭТАП',
+        newChatBtn: '+ НОВЫЙ ЧАТ',
         heroTag: 'UZEX AI HACKATHON 2026 · ОТБОРОЧНЫЙ ЭТАП',
         heroHeadline: '<span class="pl bg-w">ИИ-АНАЛИТИК</span> <span class="pl bg-b">БИРЖЕВЫХ ДАННЫХ</span> <span class="pl bg-n">UZEX</span>',
-        heroDesc: 'Задайте вопрос на <b>русском</b> или <b>узбекском</b> языке по реестру сделок (03.01.2022 – 30.10.2026). Каждый ответ рассчитывается через точный SQL-запрос к DuckDB и сопровождается доказательной базой.',
+        heroDesc: 'Задайте любой аналитический вопрос на <b>русском</b> или <b>узбекском</b> языке по реестру из 500 000 биржевых сделок (03.01.2022 – 30.10.2026). Агент выполняет точный SQL-запрос к DuckDB, проверяет каждое число и показывает доказательную базу.',
         s1k: '// ОБЪЁМ РЕЕСТРА',
         s1v: 'сделок',
         s2k: '// ПЕРИОД ДАННЫХ',
         s2v: 'гг.',
         s3k: '// УЧАСТНИКИ И БРОКЕРЫ',
         s4k: '// КОНТРАКТЫ И РЕГИОНЫ',
-        consoleTitle: 'ПОИСК И АНАЛИТИКА ПО РЕЕСТРУ СДЕЛОК',
-        placeholder: 'Например: Какой объём и сумма сделок по хлопку-сырцу в 2025 году?',
-        submitBtn: 'ВЫПОЛНИТЬ ЗАПРОС →',
-        loadingStep: 'ВЫПОЛНЯЕТСЯ SQL-ЗАПРОС И ПРОВЕРКА ДАННЫХ...',
-        evLabelFilters: '// ФИЛЬТРЫ',
-        evLabelCount: '// НАЙДЕНО СДЕЛОК',
-        evLabelSamples: '// ПРИМЕРЫ СДЕЛОК',
-        evLabelEngine: '// ВРЕМЯ РАСЧЁТА',
-        tabTableLabel: 'ТАБЛИЦА ДАННЫХ',
-        tabSqlLabel: 'SQL-ЗАПРОС',
-        verifiedBadge: '✓ ПРОВЕРЕНО ПО БАЗЕ SQL (DUCKDB)',
+        startersTitle: '// ВЫБЕРИТЕ ПРИМЕР ИЛИ НАПИШИТЕ СВОЙ ВОПРОС ВНИЗУ:',
+        placeholder: 'Задайте вопрос по сделкам, товарам, регионам или участникам (RU / UZ)...',
+        sendBtn: 'ОТПРАВИТЬ →',
+        footLeft: 'DUCKDB 500K DEALS · АННУЛИРОВАННЫЕ СДЕЛКИ ИСКЛЮЧЕНЫ ПО УМОЛЧАНИЮ',
+        thinkHead: 'АНАЛИЗ ДАННЫХ РЕЕСТРА...',
+        step1: '1. Поиск товаров, компаний и регионов в базе...',
+        step2: '2. Выполнение SQL-запроса к DuckDB (500 000 сделок)...',
+        step3: '3. Числовая верификация и сборка доказательной базы...',
+        verifiedBadge: '✓ ПРОВЕРЕНО SQL',
         notFoundBadge: '⚠ ДАННЫЕ НЕ НАЙДЕНЫ',
-        examples: [
-          { tag: 'ОБЪЁМ', q: 'Какой объём и сумма сделок по хлопку-сырцу в 2025 году?' },
-          { tag: 'ТОП-5', q: 'Топ-5 покупателей портландцемента в 2024 году по сумме сделок' },
-          { tag: 'РЕГИОНЫ', q: 'В каких 3 регионах продавцы заключили сделок на наибольшую сумму в 2024 году?' },
-          { tag: '№', q: 'Подробная информация по сделке №100001' },
-          { tag: 'ТЕСТ', q: 'Какой объём сделок по золотым слиткам в 2025 году?' }
+        dealsLbl: 'Сделок',
+        samplesLbl: 'Примеры',
+        filtersLbl: '// ФИЛЬТРЫ',
+        modelLbl: '// МОДЕЛЬ И ВРЕМЯ',
+        btnDetails: '📊 ДОКАЗАТЕЛЬНАЯ БАЗА И SQL ▾',
+        tabTable: 'ТАБЛИЦА ДАННЫХ',
+        tabSql: 'SQL-ЗАПРОС',
+        starters: [
+          { cat: 'ОБЪЁМ И СУММА · 2025', q: 'Какой объём и сумма сделок по хлопку-сырцу в 2025 году?' },
+          { cat: 'РЕЙТИНГ ПОКУПАТЕЛЕЙ · ТОП-5', q: 'Топ-5 покупателей портландцемента в 2024 году по сумме сделок' },
+          { cat: 'АНАЛИТИКА ПО РЕГИОНАМ', q: 'В каких 3 регионах продавцы заключили сделок на наибольшую сумму в 2024 году?' },
+          { cat: 'ПОИСК СДЕЛКИ + ТЕСТ НА ГАЛЛЮЦИНАЦИИ', q: 'Подробная информация по сделке №100001' }
         ]
       },
       uz: {
         navSub: 'HACKATHON 2026 · SARALASH BOSQICHI',
+        newChatBtn: '+ YANGI SUHBAT',
         heroTag: 'UZEX AI HACKATHON 2026 · SARALASH BOSQICHI',
         heroHeadline: '<span class="pl bg-w">UZEX BIRJA</span> <span class="pl bg-b">MAʼLUMOTLARI</span> <span class="pl bg-n">AI-TAHLILCHISI</span>',
-        heroDesc: 'Bitimlar reestri (03.01.2022 – 30.10.2026) bo‘yicha <b>o‘zbek</b> yoki <b>rus</b> tilida savol bering. Har bir javob DuckDB bazasiga aniq SQL-so‘rov orqali hisoblanadi va isbot bazasi bilan taqdim etiladi.',
+        heroDesc: '500 000 ta birja bitimlari reestri (03.01.2022 – 30.10.2026) bo‘yicha <b>o‘zbek</b> yoki <b>rus</b> tilida savol bering. Agent DuckDB bazasiga aniq SQL-so‘rov bajaradi, har bir raqamni tekshiradi va isbot bazasini ko‘rsatadi.',
         s1k: '// REESTR HAJMI',
         s1v: 'bitim',
         s2k: '// MAʼLUMOTLAR DAVRI',
         s2v: 'yillar',
         s3k: '// ISHTIROKCHILAR VA BROKERLAR',
         s4k: '// SHARTNOMALAR VA HUDUDLAR',
-        consoleTitle: 'BITIMLAR REESTRI BO‘YICHA QIDIRUV VA TAHLIL',
-        placeholder: 'Masalan: 2025-yilda paxta yog‘i bo‘yicha nechta bitim tuzilgan va jami summasi qancha?',
-        submitBtn: 'SO‘ROVNI BAJARISH →',
-        loadingStep: 'SQL-SO‘ROV VA MAʼLUMOTLAR TEKSHIRUVI BAJARILMOQDA...',
-        evLabelFilters: '// FILTRLAR',
-        evLabelCount: '// TOPILGAN BITIMLAR',
-        evLabelSamples: '// BITIM NAMUNALARI',
-        evLabelEngine: '// HISOBLASH VAQTI',
-        tabTableLabel: 'MAʼLUMOTLAR JADVALI',
-        tabSqlLabel: 'SQL-SO‘ROV',
-        verifiedBadge: '✓ SQL BAZA ORQALI TASDIQLANGAN (DUCKDB)',
+        startersTitle: '// NAMUNANI TANLANG YOKI PASTDA O‘Z SAVOLINGIZNI YOZING:',
+        placeholder: 'Bitimlar, tovarlar, hududlar yoki ishtirokchilar bo‘yicha savol bering (UZ / RU)...',
+        sendBtn: 'YUBORISH →',
+        footLeft: 'DUCKDB 500K BITIM · BEKOR QILINGAN BITIMLAR HISOBGA OLINMAYDI',
+        thinkHead: 'REESTR MAʼLUMOTLARI TAHLIL QILINMOQDA...',
+        step1: '1. Tovarlar, korxonalar va hududlar qidirilmoqda...',
+        step2: '2. DuckDB bazasiga SQL-so‘rov bajarilmoqda (500 000 bitim)...',
+        step3: '3. Raqamli tekshiruv va isbot bazasi shakllantirilmoqda...',
+        verifiedBadge: '✓ SQL TASDIQLANGAN',
         notFoundBadge: '⚠ MAʼLUMOT TOPILMADI',
-        examples: [
-          { tag: 'TAHLIL', q: '2025-yilda paxta yog‘i bo‘yicha nechta bitim tuzilgan va jami summasi qancha?' },
-          { tag: 'TOP-5', q: '2024-yilda portlandsement bo‘yicha eng yirik 5 ta xaridorni ko‘rsating' },
-          { tag: 'HUDUDLAR', q: '2024-yilda qaysi viloyat sotuvchilari eng ko‘p summaga bitim tuzgan? Top-3' },
-          { tag: '№', q: '100001-sonli bitim haqida batafsil maʼlumot bering' },
-          { tag: 'TEST', q: '2025-yilda oltin quymalari bo‘yicha qancha bitim tuzilgan?' }
+        dealsLbl: 'Bitimlar',
+        samplesLbl: 'Namunalar',
+        filtersLbl: '// FILTRLAR',
+        modelLbl: '// MODEL VA VAQT',
+        btnDetails: '📊 ISBOT BAZASI VA SQL ▾',
+        tabTable: 'MAʼLUMOTLAR JADVALI',
+        tabSql: 'SQL-SO‘ROV',
+        starters: [
+          { cat: 'HAJM VA SUMMA · 2025', q: '2025-yilda paxta yog‘i bo‘yicha nechta bitim tuzilgan va jami summasi qancha?' },
+          { cat: 'XARIDORLAR REYTINGI · TOP-5', q: '2024-yilda portlandsement bo‘yicha eng yirik 5 ta xaridorni ko‘rsating' },
+          { cat: 'HUDUDLAR TAHLILI · TOP-3', q: '2024-yilda qaysi viloyat sotuvchilari eng ko‘p summaga bitim tuzgan? Top-3' },
+          { cat: 'BITIM QIDIRUVI · №100001', q: '100001-sonli bitim haqida batafsil maʼlumot bering' }
         ]
       }
     };
 
-    function setUILang(lang) {
-      currentUILang = lang;
-      document.getElementById('langRuBtn').classList.toggle('on', lang === 'ru');
-      document.getElementById('langUzBtn').classList.toggle('on', lang === 'uz');
-
-      const s = UI_STRINGS[lang];
-      document.getElementById('navSub').textContent = s.navSub;
-      document.getElementById('heroTag').textContent = s.heroTag;
-      document.getElementById('heroHeadline').innerHTML = s.heroHeadline;
-      document.getElementById('heroDesc').innerHTML = s.heroDesc;
-      document.getElementById('s1k').textContent = s.s1k;
-      document.getElementById('s1v').textContent = s.s1v;
-      document.getElementById('s2k').textContent = s.s2k;
-      document.getElementById('s2v').textContent = s.s2v;
-      document.getElementById('s3k').textContent = s.s3k;
-      document.getElementById('s4k').textContent = s.s4k;
-      document.getElementById('consoleTitle').textContent = s.consoleTitle;
-      document.getElementById('questionInput').placeholder = s.placeholder;
-      document.getElementById('submitBtnText').textContent = s.submitBtn;
-      document.getElementById('loadingStepText').textContent = s.loadingStep;
-      document.getElementById('evLabelFilters').textContent = s.evLabelFilters;
-      document.getElementById('evLabelCount').textContent = s.evLabelCount;
-      document.getElementById('evLabelSamples').textContent = s.evLabelSamples;
-      document.getElementById('evLabelEngine').textContent = s.evLabelEngine;
-      document.getElementById('tabTableLabel').textContent = s.tabTableLabel;
-      document.getElementById('tabSqlLabel').textContent = s.tabSqlLabel;
-
-      if (lastResultData) {
-        const verifierBadge = document.getElementById('verifierBadge');
-        verifierBadge.textContent = lastResultData.not_found ? s.notFoundBadge : s.verifiedBadge;
-        const filt = lang === 'uz'
-          ? (lastResultData.filters_uz || lastResultData.filters_applied || '—')
-          : (lastResultData.filters_ru || lastResultData.filters_applied || '—');
-        document.getElementById('evFilters').textContent = filt;
-      }
-
-      const container = document.getElementById('chipsContainer');
-      container.innerHTML = '';
-      s.examples.forEach(item => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'chip';
-        btn.innerHTML = `<span class="chip-tag">${item.tag}</span><span>${escapeHtml(item.q)}</span>`;
-        btn.onclick = () => {
-          const inp = document.getElementById('questionInput');
-          inp.value = item.q;
-          document.getElementById('clearBtn').style.display = 'block';
-          submitQuestion(new Event('submit'));
-        };
-        container.appendChild(btn);
-      });
-    }
-
-    function switchTab(tab) {
-      document.getElementById('tabBtnTable').classList.toggle('active', tab === 'table');
-      document.getElementById('tabBtnSql').classList.toggle('active', tab === 'sql');
-      document.getElementById('paneTable').classList.toggle('active', tab === 'table');
-      document.getElementById('paneSql').classList.toggle('active', tab === 'sql');
-    }
-
     function escapeHtml(str) {
-      return String(str)
+      return String(str || '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
@@ -1069,44 +998,317 @@
       return String(val);
     }
 
-    function clearInput() {
-      const inp = document.getElementById('questionInput');
-      inp.value = '';
-      document.getElementById('clearBtn').style.display = 'none';
-      inp.focus();
+    function setUILang(lang) {
+      currentUILang = lang;
+      localStorage.setItem(LANG_KEY, lang);
+      document.getElementById('langRuBtn').classList.toggle('on', lang === 'ru');
+      document.getElementById('langUzBtn').classList.toggle('on', lang === 'uz');
+
+      const s = UI_STRINGS[lang];
+      document.getElementById('navSub').textContent = s.navSub;
+      document.getElementById('newChatBtn').textContent = s.newChatBtn;
+      document.getElementById('heroTag').textContent = s.heroTag;
+      document.getElementById('heroHeadline').innerHTML = s.heroHeadline;
+      document.getElementById('heroDesc').innerHTML = s.heroDesc;
+      document.getElementById('s1k').textContent = s.s1k;
+      document.getElementById('s1v').textContent = s.s1v;
+      document.getElementById('s2k').textContent = s.s2k;
+      document.getElementById('s2v').textContent = s.s2v;
+      document.getElementById('s3k').textContent = s.s3k;
+      document.getElementById('s4k').textContent = s.s4k;
+      document.getElementById('startersTitle').textContent = s.startersTitle;
+      document.getElementById('chatInput').placeholder = s.placeholder;
+      document.getElementById('sendBtnText').textContent = s.sendBtn;
+      document.getElementById('footLeft').textContent = s.footLeft;
+
+      renderStarters(s.starters);
+      renderAllMessages();
     }
 
-    document.getElementById('questionInput').addEventListener('input', (e) => {
-      document.getElementById('clearBtn').style.display = e.target.value ? 'block' : 'none';
-    });
-
-    function copySql() {
-      if (!lastSqlText) return;
-      navigator.clipboard.writeText(lastSqlText);
-      const btn = document.getElementById('copySqlBtn');
-      const old = btn.textContent;
-      btn.textContent = 'COPIED ✓';
-      setTimeout(() => { btn.textContent = old; }, 1400);
+    function renderStarters(starters) {
+      const grid = document.getElementById('startersGrid');
+      grid.innerHTML = '';
+      starters.forEach(item => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'starter-card';
+        btn.innerHTML = `
+          <span class="starter-card-cat">${escapeHtml(item.cat)}</span>
+          <span class="starter-card-q">${escapeHtml(item.q)}</span>
+        `;
+        btn.onclick = () => askQuestion(item.q);
+        grid.appendChild(btn);
+      });
     }
 
-    async function submitQuestion(e) {
+    function saveHistory() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(chatHistory.slice(-30)));
+      } catch (e) {}
+    }
+
+    function loadHistory() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) chatHistory = parsed;
+        }
+      } catch (e) {
+        chatHistory = [];
+      }
+    }
+
+    function clearChat() {
+      if (isAsking) return;
+      chatHistory = [];
+      localStorage.removeItem(STORAGE_KEY);
+      renderAllMessages();
+      document.getElementById('chatInput').focus();
+    }
+
+    function scrollToBottom() {
+      const sc = document.getElementById('chatScroll');
+      sc.scrollTop = sc.scrollHeight;
+    }
+
+    function renderAllMessages() {
+      const welcome = document.getElementById('welcomeScreen');
+      const list = document.getElementById('messagesList');
+      list.innerHTML = '';
+
+      if (chatHistory.length === 0) {
+        welcome.classList.remove('welcome-Screen-hidden');
+        return;
+      }
+      welcome.classList.add('welcome-Screen-hidden');
+
+      chatHistory.forEach((turn, idx) => {
+        // User bubble
+        const uRow = document.createElement('div');
+        uRow.className = 'msg-row user';
+        uRow.innerHTML = `<div class="user-bubble">${escapeHtml(turn.question)}</div>`;
+        list.appendChild(uRow);
+
+        // AI bubble
+        const aRow = document.createElement('div');
+        aRow.className = 'msg-row ai';
+        aRow.innerHTML = buildAiBubbleHtml(turn.data, idx);
+        list.appendChild(aRow);
+      });
+
+      scrollToBottom();
+    }
+
+    function buildAiBubbleHtml(data, idx) {
+      const s = UI_STRINGS[currentUILang];
+      const notFound = Boolean(data.not_found);
+      const badgeText = notFound ? s.notFoundBadge : s.verifiedBadge;
+      const dealsStr = typeof data.deals_count === 'number' ? data.deals_count.toLocaleString('ru-RU') : '0';
+      const samplesStr = Array.isArray(data.sample_deals) && data.sample_deals.length > 0
+        ? data.sample_deals.map(id => `№${id}`).join(', ')
+        : '—';
+      const filt = currentUILang === 'uz'
+        ? (data.filters_uz || data.filters_applied || '—')
+        : (data.filters_ru || data.filters_applied || '—');
+      const lat = `${Number(data.latency_s || 0).toFixed(2)}s`;
+      const model = data.model_used || 'fast-path';
+
+      const rows = Array.isArray(data.sql_rows) ? data.sql_rows : [];
+      const cols = Array.isArray(data.columns) ? data.columns : [];
+      const sql = data.sql || '';
+      const hasEvidence = Boolean(sql || rows.length > 0);
+
+      let tableHtml = '';
+      if (rows.length > 0 && cols.length > 0) {
+        const ths = cols.map(c => `<th>${escapeHtml(c)}</th>`).join('');
+        const trs = rows.map(r => {
+          return '<tr>' + cols.map(c => {
+            const v = r[c];
+            const isNum = typeof v === 'number';
+            return `<td class="${isNum ? 'num-col' : ''}">${escapeHtml(formatCellVal(v, c))}</td>`;
+          }).join('') + '</tr>';
+        }).join('');
+        tableHtml = `<div class="table-scroll"><table class="data-table"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table></div>`;
+      }
+
+      const defaultTab = rows.length > 0 ? 'table' : 'sql';
+
+      return `
+        <div class="ai-avatar"><span class="mark-sm"></span></div>
+        <div class="ai-card ${notFound ? 'not-found' : ''}">
+          <div class="ai-prose">${escapeHtml(data.answer_text)}</div>
+
+          <div class="ai-meta-bar">
+            <div class="meta-pills">
+              <span class="verified-tag ${notFound ? 'warn' : ''}">${badgeText}</span>
+              <span class="meta-kv">${s.dealsLbl}: <b>${dealsStr}</b></span>
+              ${samplesStr !== '—' ? `<span class="meta-kv">${s.samplesLbl}: <b>${escapeHtml(samplesStr)}</b></span>` : ''}
+              <span class="meta-kv"><b>${lat}</b></span>
+            </div>
+            ${hasEvidence ? `
+              <button type="button" class="expand-ev-btn" onclick="toggleEvDrawer(${idx})">
+                ${s.btnDetails}
+              </button>
+            ` : ''}
+          </div>
+
+          ${hasEvidence ? `
+            <div class="evidence-drawer" id="evDrawer_${idx}">
+              <div class="ev-summary-row">
+                <div class="ev-sum-cell">
+                  <div class="lbl">${s.filtersLbl}</div>
+                  <div class="val">${escapeHtml(filt)}</div>
+                </div>
+                <div class="ev-sum-cell">
+                  <div class="lbl">// ${s.samplesLbl.toUpperCase()}</div>
+                  <div class="val mono" style="color:var(--neon);">${escapeHtml(samplesStr)}</div>
+                </div>
+                <div class="ev-sum-cell">
+                  <div class="lbl">${s.modelLbl}</div>
+                  <div class="val mono">${escapeHtml(model)} (${lat})</div>
+                </div>
+              </div>
+
+              <div class="drawer-tabs">
+                <div class="drawer-tab-btns">
+                  ${rows.length > 0 ? `
+                    <button type="button" class="d-tab ${defaultTab === 'table' ? 'active' : ''}" id="dTabTable_${idx}" onclick="switchMsgTab(${idx}, 'table')">
+                      ${s.tabTable} (${rows.length})
+                    </button>
+                  ` : ''}
+                  ${sql ? `
+                    <button type="button" class="d-tab ${defaultTab === 'sql' ? 'active' : ''}" id="dTabSql_${idx}" onclick="switchMsgTab(${idx}, 'sql')">
+                      ${s.tabSql}
+                    </button>
+                  ` : ''}
+                </div>
+                ${sql ? `<button type="button" class="copy-mini" id="copyBtn_${idx}" onclick="copyMsgSql(${idx})">COPY SQL</button>` : ''}
+              </div>
+
+              ${rows.length > 0 ? `
+                <div class="d-pane ${defaultTab === 'table' ? 'active' : ''}" id="dPaneTable_${idx}">
+                  ${tableHtml}
+                </div>
+              ` : ''}
+              ${sql ? `
+                <div class="d-pane ${defaultTab === 'sql' ? 'active' : ''}" id="dPaneSql_${idx}">
+                  <pre class="sql-code">${escapeHtml(sql)}</pre>
+                </div>
+              ` : ''}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function toggleEvDrawer(idx) {
+      const el = document.getElementById(`evDrawer_${idx}`);
+      if (el) {
+        el.classList.toggle('open');
+      }
+    }
+
+    function switchMsgTab(idx, tab) {
+      const tBtn = document.getElementById(`dTabTable_${idx}`);
+      const sBtn = document.getElementById(`dTabSql_${idx}`);
+      const tPane = document.getElementById(`dPaneTable_${idx}`);
+      const sPane = document.getElementById(`dPaneSql_${idx}`);
+      if (tBtn) tBtn.classList.toggle('active', tab === 'table');
+      if (sBtn) sBtn.classList.toggle('active', tab === 'sql');
+      if (tPane) tPane.classList.toggle('active', tab === 'table');
+      if (sPane) sPane.classList.toggle('active', tab === 'sql');
+    }
+
+    function copyMsgSql(idx) {
+      const item = chatHistory[idx];
+      if (!item || !item.data || !item.data.sql) return;
+      navigator.clipboard.writeText(item.data.sql);
+      const btn = document.getElementById(`copyBtn_${idx}`);
+      if (btn) {
+        const old = btn.textContent;
+        btn.textContent = 'COPIED ✓';
+        setTimeout(() => { btn.textContent = old; }, 1400);
+      }
+    }
+
+    function handleSend(e) {
       if (e && e.preventDefault) e.preventDefault();
-      const inp = document.getElementById('questionInput');
-      const question = inp.value.trim();
-      if (!question) return;
+      const inp = document.getElementById('chatInput');
+      const q = inp.value.trim();
+      if (!q || isAsking) return;
+      inp.value = '';
+      askQuestion(q);
+    }
 
-      const submitBtn = document.getElementById('submitBtn');
-      const loadingPanel = document.getElementById('loadingPanel');
-      const timerEl = document.getElementById('loadingTimer');
+    async function askQuestion(question) {
+      if (isAsking) return;
+      isAsking = true;
 
-      submitBtn.disabled = true;
-      loadingPanel.classList.add('active');
+      const sendBtn = document.getElementById('sendBtn');
+      sendBtn.disabled = true;
+
+      const welcome = document.getElementById('welcomeScreen');
+      welcome.classList.add('welcome-Screen-hidden');
+
+      const list = document.getElementById('messagesList');
+
+      // 1. Append User Bubble immediately
+      const uRow = document.createElement('div');
+      uRow.className = 'msg-row user';
+      uRow.innerHTML = `<div class="user-bubble">${escapeHtml(question)}</div>`;
+      list.appendChild(uRow);
+
+      // 2. Append Live Step-by-Step Thinking AI Bubble
+      const s = UI_STRINGS[currentUILang];
+      const tempRow = document.createElement('div');
+      tempRow.className = 'msg-row ai';
+      tempRow.innerHTML = `
+        <div class="ai-avatar"><span class="mark-sm"></span></div>
+        <div class="ai-card">
+          <div class="thinking-box">
+            <div class="thinking-head mono">
+              <span>${s.thinkHead}</span>
+              <span id="liveThinkTimer">0.0s</span>
+            </div>
+            <div class="thinking-steps">
+              <div class="step-item active" id="thStep1">
+                <span class="step-icon"></span>
+                <span>${s.step1}</span>
+              </div>
+              <div class="step-item pending" id="thStep2">
+                <span class="step-icon"></span>
+                <span>${s.step2}</span>
+              </div>
+              <div class="step-item pending" id="thStep3">
+                <span class="step-icon"></span>
+                <span>${s.step3}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      list.appendChild(tempRow);
+      scrollToBottom();
+
+      // Animate steps & timer
       const t0 = performance.now();
-      timerEl.textContent = '0.0s';
-      if (timerInterval) clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
-        timerEl.textContent = `${elapsed}s`;
+      const timerInterval = setInterval(() => {
+        const el = document.getElementById('liveThinkTimer');
+        if (!el) return;
+        const sec = (performance.now() - t0) / 1000;
+        el.textContent = `${sec.toFixed(1)}s`;
+        const s1 = document.getElementById('thStep1');
+        const s2 = document.getElementById('thStep2');
+        const s3 = document.getElementById('thStep3');
+        if (sec > 1.1 && s1 && s2 && s1.classList.contains('active')) {
+          s1.className = 'step-item done';
+          s2.className = 'step-item active';
+        }
+        if (sec > 2.8 && s2 && s3 && s2.classList.contains('active')) {
+          s2.className = 'step-item done';
+          s3.className = 'step-item active';
+        }
       }, 100);
 
       try {
@@ -1119,89 +1321,31 @@
         if (!res.ok || data.error) {
           throw new Error(data.error || `HTTP ${res.status}`);
         }
-        renderAnswer(data);
+
+        const idx = chatHistory.length;
+        chatHistory.push({ question, data });
+        saveHistory();
+
+        tempRow.innerHTML = buildAiBubbleHtml(data, idx);
       } catch (err) {
-        const resultContainer = document.getElementById('resultContainer');
-        resultContainer.classList.add('visible');
-        document.getElementById('answerBody').textContent = `⚠️ ${err.message || String(err)}`;
+        tempRow.innerHTML = `
+          <div class="ai-avatar"><span class="mark-sm"></span></div>
+          <div class="ai-card not-found">
+            <div class="ai-prose">⚠️ ${escapeHtml(err.message || String(err))}</div>
+          </div>
+        `;
       } finally {
         clearInterval(timerInterval);
-        loadingPanel.classList.remove('active');
-        submitBtn.disabled = false;
+        isAsking = false;
+        sendBtn.disabled = false;
+        scrollToBottom();
+        document.getElementById('chatInput').focus();
       }
     }
 
-    function renderAnswer(data) {
-      lastResultData = data;
-      const s = UI_STRINGS[currentUILang];
-      const resultContainer = document.getElementById('resultContainer');
-      const answerCard = document.getElementById('answerCard');
-      resultContainer.classList.add('visible');
-
-      answerCard.classList.toggle('not-found', Boolean(data.not_found));
-
-      const verifierBadge = document.getElementById('verifierBadge');
-      if (data.not_found) {
-        verifierBadge.className = 'badge badge-warn';
-        verifierBadge.textContent = s.notFoundBadge;
-      } else {
-        verifierBadge.className = 'badge badge-verified';
-        verifierBadge.textContent = s.verifiedBadge;
-      }
-
-      document.getElementById('metaHeaderRight').textContent =
-        `${data.model_used || '—'} · ${Number(data.latency_s || 0).toFixed(2)}s`;
-
-      document.getElementById('askedQuestionDisplay').textContent = `> ${data.question}`;
-      document.getElementById('answerBody').textContent = data.answer_text || '';
-
-      const filt = currentUILang === 'uz'
-        ? (data.filters_uz || data.filters_applied || '—')
-        : (data.filters_ru || data.filters_applied || '—');
-      document.getElementById('evFilters').textContent = filt;
-      document.getElementById('evDealsCount').textContent =
-        typeof data.deals_count === 'number' ? data.deals_count.toLocaleString('ru-RU') : '0';
-
-      const samples = Array.isArray(data.sample_deals) && data.sample_deals.length > 0
-        ? data.sample_deals.map(id => `№${id}`).join(', ')
-        : '—';
-      document.getElementById('evSampleDeals').textContent = samples;
-      document.getElementById('evModelSpeed').textContent =
-        `${Number(data.latency_s || 0).toFixed(2)}s (${data.model_used || '—'})`;
-
-      // Inspector Box (Table & SQL Tabs)
-      const inspectorBox = document.getElementById('inspectorBox');
-      const rows = Array.isArray(data.sql_rows) ? data.sql_rows : [];
-      const cols = Array.isArray(data.columns) ? data.columns : [];
-      lastSqlText = data.sql || '';
-
-      document.getElementById('tableRowCount').textContent = rows.length;
-      document.getElementById('sqlPreEl').textContent = lastSqlText || '—';
-
-      if (rows.length > 0 && cols.length > 0) {
-        document.getElementById('sqlTableHead').innerHTML =
-          '<tr>' + cols.map(c => `<th>${escapeHtml(c)}</th>`).join('') + '</tr>';
-        document.getElementById('sqlTableBody').innerHTML = rows.map(r => {
-          return '<tr>' + cols.map(c => {
-            const v = r[c];
-            const isNum = typeof v === 'number';
-            return `<td class="${isNum ? 'num-col' : ''}">${escapeHtml(formatCellVal(v, c))}</td>`;
-          }).join('') + '</tr>';
-        }).join('');
-      } else {
-        document.getElementById('sqlTableHead').innerHTML = '';
-        document.getElementById('sqlTableBody').innerHTML = '';
-      }
-
-      if (rows.length > 0 || lastSqlText) {
-        inspectorBox.style.display = 'block';
-        switchTab(rows.length > 0 ? 'table' : 'sql');
-      } else {
-        inspectorBox.style.display = 'none';
-      }
-    }
-
-    setUILang('ru');
+    // Boot
+    loadHistory();
+    setUILang(currentUILang);
   </script>
 </body>
 </html>
