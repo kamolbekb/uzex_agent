@@ -63,6 +63,29 @@ def format_deal_id(deal_id: int | str) -> str:
         return f"№{deal_id}"
 
 
+def prettify_prose_numbers(text: str) -> str:
+    """Format raw unformatted numbers in LLM prose (e.g. '41508020420.0 UZS' -> '41 508 020 420 UZS') while preserving INNs and years."""
+    def _repl(m: re.Match[str]) -> str:
+        prefix = m.group(1) or ""
+        num_str = m.group(2)
+        # Preserve 9-digit INNs when preceded by INN/STIR/ИНН/СТИР
+        if re.search(r"(?:inn|stir|инн|стир|№|#)\s*[:\-]?\s*$", prefix, flags=re.IGNORECASE):
+            return m.group(0)
+        try:
+            val = float(num_str)
+            # Preserve 4-digit years
+            if 1990 <= val <= 2035 and "." not in num_str:
+                return m.group(0)
+            # Preserve 9-digit integers that look like INNs
+            if "." not in num_str and len(num_str) == 9:
+                return m.group(0)
+            return f"{prefix}{format_number(val)}"
+        except ValueError:
+            return m.group(0)
+
+    return re.sub(r"((?:inn|stir|инн|стир|№|#)\s*[:\-]?\s*|\b)(\d{5,}(?:\.\d+)?)\b", _repl, text, flags=re.IGNORECASE)
+
+
 def build_not_found_reply(lang: str, context_note: str = "", sql: str = "", model: str = "fast-path", latency_s: float = 0.0) -> str:
     """Fixed anti-hallucination template when SQL returns 0 rows or entity/date is out of scope."""
     if lang == "uz":

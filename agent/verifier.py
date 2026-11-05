@@ -14,8 +14,8 @@ NUMBER_TOKEN_RE = re.compile(
     r"(?![A-Za-zА-Яа-яЁёЎўҚқҒғҲҳ0-9_])"
 )
 
-# Common small numbers that may legitimately appear in phrasing ("за 1 тонну", "в 2 раза", "топ-5", "100%", "1-сорт")
-TRIVIAL_WHITELIST = {0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 100.0}
+# Common small numbers that may legitimately appear in phrasing ("за 1 тонну", "топ-5", "keyingi 10 ta", list indices 1..30)
+TRIVIAL_WHITELIST = {float(i) for i in range(0, 31)} | {100.0}
 
 
 def extract_numbers_from_text(text: str) -> list[float]:

@@ -19,6 +19,7 @@ from agent.formatter import (
     format_number,
     format_telegram_response,
     infer_filters_from_sql,
+    prettify_prose_numbers,
 )
 from agent.llm_router import LLMRouter
 from agent.prompts import SYSTEM_PROMPT
@@ -169,6 +170,7 @@ class AgentOrchestrator:
                 DELETE FROM answer_cache
                 WHERE payload_json LIKE '%```json%'
                    OR payload_json LIKE '%"verifier_passed": false%'
+                   OR payload_json LIKE '%Bitimlar soni: 442%'
                 """
             )
             con.commit()
@@ -472,6 +474,7 @@ class AgentOrchestrator:
         last_sql: str = ""
         last_sql_rows: list[dict[str, Any]] = []
         last_sql_row_count: int = 0
+        all_sql_rows: list[dict[str, Any]] = []
         sql_executed: bool = False
         model_used: str = "unknown"
         final_json: dict[str, Any] | None = None
@@ -529,9 +532,20 @@ class AgentOrchestrator:
                         tool_out = self.tools.run_sql(q_sql)
                         if tool_out.get("ok"):
                             sql_executed = True
-                            last_sql = tool_out.get("sql", q_sql)
-                            last_sql_rows = tool_out.get("rows", [])
-                            last_sql_row_count = int(tool_out.get("row_count", 0))
+                            new_rows = tool_out.get("rows", [])
+                            new_count = int(tool_out.get("row_count", 0))
+                            all_sql_rows.extend(new_rows)
+                            # Keep rich multi-row query as primary table if a subsequent query is just a 1-row COUNT(*) helper
+                            is_summary_only = (
+                                len(new_rows) == 1
+                                and len(last_sql_rows) > 1
+                                and set(k.lower() for k in new_rows[0].keys())
+                                <= {"deals_count", "cnt", "count", "deal_count", "sample_deal", "sample_deal_1", "sample_deal_2", "min_id", "max_id"}
+                            )
+                            if not is_summary_only:
+                                last_sql = tool_out.get("sql", q_sql)
+                                last_sql_rows = new_rows
+                                last_sql_row_count = new_count
                     else:
                         tool_out = {"error": f"Unknown tool: {t_name}"}
 
@@ -644,15 +658,16 @@ class AgentOrchestrator:
             self._set_cached(question, res, history)
             return res
 
-        # Verify every number in `answer_text` against `last_sql_rows`
+        # Verify every number in `answer_text` against `all_sql_rows` (across all SQL queries run in this turn)
+        verify_rows = all_sql_rows if all_sql_rows else last_sql_rows
         answer_text = str(final_json.get("answer_text", "")).strip()
-        verified_ok, bad_nums = verify_answer_numbers(answer_text, last_sql_rows, last_sql_row_count, question)
+        verified_ok, bad_nums = verify_answer_numbers(answer_text, verify_rows, last_sql_row_count, question)
 
         if not verified_ok and (deadline_ts - time.time()) > 5.0:
             # Regenerate once with explicit warning about unmatched numbers
             regen_prompt = (
                 f"REJECTED: Your answer contained numbers {bad_nums} that do NOT match the SQL results: "
-                f"{json.dumps(last_sql_rows[:10], ensure_ascii=False)}.\n"
+                f"{json.dumps(last_sql_rows[:15], ensure_ascii=False)}.\n"
                 f"Rewrite the JSON response using ONLY exact numbers from the SQL result above."
             )
             messages.append({"role": "assistant", "content": json.dumps(final_json, ensure_ascii=False)})
@@ -662,14 +677,14 @@ class AgentOrchestrator:
                     messages=messages,
                     tools=None,
                     temperature=0.0,
-                    max_tokens=1000,
+                    max_tokens=1500,
                     deadline_ts=deadline_ts,
                 )
                 model_used = f"{regen_resp.provider}/{regen_resp.model}"
                 regen_json = _extract_json_block(regen_resp.content)
                 if regen_json and "answer_text" in regen_json:
                     cand_text = str(regen_json["answer_text"]).strip()
-                    v2_ok, _ = verify_answer_numbers(cand_text, last_sql_rows, last_sql_row_count, question)
+                    v2_ok, _ = verify_answer_numbers(cand_text, verify_rows, last_sql_row_count, question)
                     if v2_ok:
                         final_json = regen_json
                         answer_text = cand_text
@@ -684,6 +699,8 @@ class AgentOrchestrator:
                 last_sql_rows,
                 str(final_json.get("filters_applied", "")),
             )
+        else:
+            answer_text = prettify_prose_numbers(answer_text)
 
         deals_count, sample_deals = extract_evidence_from_sql_rows(
             last_sql,
