@@ -46,10 +46,11 @@ EXAMPLE_QUESTIONS: dict[str, str] = {
     "ex_4": "Сделка №100001",
 }
 
-# Global concurrency limit (3 parallel questions) and per-user rate limit (1 req per 2s)
+# Global concurrency limit (3 parallel questions), per-user rate limit (1 req per 2s), and per-user conversation memory
 GLOBAL_SEMAPHORE = asyncio.Semaphore(3)
 USER_LAST_REQ: dict[int, float] = {}
 USER_COOLDOWN_S = 2.0
+USER_HISTORY: dict[int, list[dict[str, str]]] = {}
 
 dp = Dispatcher()
 orchestrator: AgentOrchestrator | None = None
@@ -74,6 +75,8 @@ def build_examples_keyboard() -> InlineKeyboardMarkup:
 
 @dp.message(CommandStart())
 async def cmd_start(message: Message) -> None:
+    if message.from_user:
+        USER_HISTORY.pop(message.from_user.id, None)
     text = (
         "👋 <b>Здравствуйте! / Assalomu alaykum!</b>\n\n"
         "🇷🇺 Я ИИ-аналитик реестра биржевых сделок <b>UZEX</b> (500 000 сделок за 03.01.2022 – 30.10.2026).\n"
@@ -131,9 +134,22 @@ async def _process_question(target_msg: Message, question: str, user_id: int) ->
     status_msg = await target_msg.answer(placeholder_text)
 
     try:
+        user_hist = list(USER_HISTORY.get(user_id, [])[-3:])
         async with GLOBAL_SEMAPHORE:
             orch = get_orchestrator()
-            result = await asyncio.to_thread(orch.answer, question)
+            result = await asyncio.to_thread(orch.answer, question, user_hist)
+
+        if result.sql and not result.not_found:
+            hist_list = USER_HISTORY.setdefault(user_id, [])
+            hist_list.append(
+                {
+                    "question": question,
+                    "sql": result.sql,
+                    "answer": result.answer_text[:220],
+                }
+            )
+            if len(hist_list) > 5:
+                del hist_list[:-5]
 
         reply_html = result.telegram_html
         if len(reply_html) > 4000:

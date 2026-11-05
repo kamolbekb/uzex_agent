@@ -85,10 +85,15 @@ def create_web_app(
         if len(question) > 1000:
             question = question[:1000]
 
+        raw_history = body.get("history")
+        history: list[dict[str, Any]] | None = None
+        if isinstance(raw_history, list):
+            history = [h for h in raw_history[-3:] if isinstance(h, dict)]
+
         try:
             async with sem:
                 orch = get_orchestrator_fn()
-                result = await asyncio.to_thread(orch.answer, question)
+                result = await asyncio.to_thread(orch.answer, question, history)
 
             safe_rows = _json_safe(result.sql_rows[:50]) if result.sql_rows else []
             columns = list(safe_rows[0].keys()) if safe_rows else []

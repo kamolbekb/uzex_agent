@@ -1312,10 +1312,15 @@
       }, 100);
 
       try {
+        const recentHistory = chatHistory.slice(-3).map(t => ({
+          question: t.question,
+          sql: (t.data && t.data.sql) || '',
+          answer: (t.data && t.data.answer_text) || ''
+        }));
         const res = await fetch('/api/ask', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question })
+          body: JSON.stringify({ question, history: recentHistory })
         });
         const data = await res.json();
         if (!res.ok || data.error) {

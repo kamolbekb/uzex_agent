@@ -48,9 +48,14 @@ class AgentResult:
     verifier_passed: bool = True
 
 
-def _normalize_cache_key(question: str) -> str:
+def _normalize_cache_key(question: str, history: list[dict[str, Any]] | None = None) -> str:
     s = normalize_apostrophes(question.lower()).replace("ё", "е")
     s = re.sub(r"\s+", " ", s).strip()
+    if history:
+        last_q = str(history[-1].get("question", "")).strip().lower()
+        last_sql = str(history[-1].get("sql", "")).strip().lower()
+        if last_q or last_sql:
+            s = f"{last_q}|{last_sql}>>{s}"
     return s
 
 
@@ -78,32 +83,58 @@ def _is_garbage_answer_text(text: str) -> bool:
         "Called tools:",
         "\"tool_calls\"",
         "\"function\":",
+        "```json",
+        "\"answer_text\"",
+        "\"filters_applied\"",
     )
     return any(marker in s for marker in bad_markers)
 
 
 def _extract_json_block(text: str) -> dict[str, Any] | None:
-    """Parse JSON object from LLM text (handles ```json fences or leading/trailing prose)."""
+    """Parse JSON object from LLM text (handles ```json fences, leading/trailing prose, or truncated JSON tails)."""
     s = text.strip()
-    if _is_garbage_answer_text(s):
+    if any(m in s for m in ("<tool_call>", "<function=", "Called tools:")):
         return None
     # Strip markdown code fence if present
     m_fence = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", s, flags=re.DOTALL | re.IGNORECASE)
     if m_fence:
-        s = m_fence.group(1)
+        s_cand = m_fence.group(1)
     else:
         start = s.find("{")
         end = s.rfind("}")
-        if start != -1 and end != -1 and end > start:
-            s = s[start : end + 1]
+        s_cand = s[start : end + 1] if (start != -1 and end != -1 and end > start) else s
+
     try:
-        obj = json.loads(s)
+        obj = json.loads(s_cand)
         if isinstance(obj, dict) and "answer_text" in obj:
             if _is_garbage_answer_text(str(obj["answer_text"])):
                 return None
             return obj
     except Exception:
         pass
+
+    # Fallback: recover fields if JSON output was truncated after "answer_text"
+    m_ans = re.search(r'"answer_text"\s*:\s*"((?:[^"\\]|\\.)*)"', s, flags=re.DOTALL)
+    if m_ans:
+        try:
+            ans_val = json.loads(f'"{m_ans.group(1)}"')
+        except Exception:
+            ans_val = m_ans.group(1).replace('\\"', '"').replace("\\n", "\n")
+        if not _is_garbage_answer_text(ans_val):
+            m_filt = re.search(r'"filters_applied"\s*:\s*"((?:[^"\\]|\\.)*)"', s, flags=re.DOTALL)
+            filt_val = m_filt.group(1) if m_filt else ""
+            m_cnt = re.search(r'"deals_count"\s*:\s*(\d+)', s)
+            cnt_val = int(m_cnt.group(1)) if m_cnt else 0
+            m_nf = re.search(r'"not_found"\s*:\s*(true|false)', s, flags=re.IGNORECASE)
+            nf_val = (m_nf.group(1).lower() == "true") if m_nf else False
+            return {
+                "answer_text": ans_val,
+                "filters_applied": filt_val,
+                "deals_count": cnt_val,
+                "sample_deals": [],
+                "sql": "",
+                "not_found": nf_val,
+            }
     return None
 
 
@@ -134,10 +165,10 @@ class AgentOrchestrator:
                 """
             )
 
-    def _get_cached(self, question: str) -> AgentResult | None:
+    def _get_cached(self, question: str, history: list[dict[str, Any]] | None = None) -> AgentResult | None:
         if not self.use_cache:
             return None
-        key = _normalize_cache_key(question)
+        key = _normalize_cache_key(question, history)
         try:
             with sqlite3.connect(CACHE_DB_PATH) as con:
                 row = con.execute("SELECT payload_json FROM answer_cache WHERE q_key = ?", (key,)).fetchone()
@@ -150,10 +181,10 @@ class AgentOrchestrator:
             pass
         return None
 
-    def _set_cached(self, question: str, result: AgentResult) -> None:
+    def _set_cached(self, question: str, result: AgentResult, history: list[dict[str, Any]] | None = None) -> None:
         if not self.use_cache:
             return
-        key = _normalize_cache_key(question)
+        key = _normalize_cache_key(question, history)
         try:
             payload = {
                 "question": result.question,
@@ -184,10 +215,10 @@ class AgentOrchestrator:
     def _try_fast_path(self, question: str, lang: str, t0: float) -> AgentResult | None:
         q_low = normalize_apostrophes(question.lower()).strip()
 
-        # Fast path 0: Casual greeting ("hey", "hi", "hello", "salom", "assalomu alaykum", "привет", "здравствуйте")
-        if re.match(r"^\s*(hey+|hi+|hello+|salom+|assalomu\s+alaykum|привет+|здравствуй(?:те)?|добрый\s+день)\s*[!?.]*\s*$", q_low):
+        # Fast path 0a: Casual greeting ("hey", "hi", "hello", "hellp", "salom", "assalomu alaykum", "привет", "здравствуйте")
+        if re.match(r"^\s*(hey+|hi+|hello+|helo+|hellp+|salom+|assalomu\s+alaykum|привет+|здравствуй(?:те)?|добрый\s+день)\s*[!?.]*\s*$", q_low):
             dt = time.perf_counter() - t0
-            if lang == "uz" or re.match(r"^\s*(salom|assalomu|hey|hi|hello)", q_low):
+            if lang == "uz" or re.match(r"^\s*(salom|assalomu|hey|hi|hello|helo|hellp)", q_low):
                 ans = (
                     "Assalomu alaykum! Men UZEX birja bitimlari reestri (03.01.2022 – 30.10.2026, 500 000 ta bitim) "
                     "bo‘yicha AI-tahlilchiman. O‘zbek yoki rus tilida savol bering — masalan: "
@@ -215,6 +246,55 @@ class AgentOrchestrator:
                     model_used="fast-path",
                     latency_s=dt,
                 )
+
+        # Fast path 0b: Identity / Help / Capabilities ("кто ты", "что ты умеешь", "help", "sen kimsan", "nima qila olasan", "yordam")
+        if re.match(
+            r"^\s*(кто\s+ты|что\s+ты\s+умеешь|расскажи\s+о\s+себе|помощь|помоги(?:те)?|справка|help|"
+            r"sen\s+kimsan|kimsan|nima\s+qila\s+olasan|yordam(?:\s+bering)?|qanday\s+savollar(?:\s+berish\s+mumkin)?)\s*[!?.]*\s*$",
+            q_low,
+        ):
+            dt = time.perf_counter() - t0
+            if lang == "uz":
+                ans = (
+                    "Men UZEX birja bitimlari reestri bo‘yicha AI-tahlilchiman.\n"
+                    "• Maʼlumotlar bazasi: 500 000 ta bitim (03.01.2022 – 30.10.2026), 6 616 ta shartnoma, "
+                    "14 392 ta ishtirokchi (sotuvchi/xaridor), 120 ta broker, 14 ta hudud va 1 765 ta kunlik USD kursi.\n"
+                    "• Imkoniyatlarim: tovarlar, davrlar, viloyatlar, korxonalar (STIR/nomi) va brokerlar kesimida hajm, "
+                    "summa (so‘m/USD), o‘rtacha narx, reytinglar (Top-N) hamda alohida bitimlarni (masalan, №100001) aniq SQL orqali hisoblab beraman."
+                )
+            else:
+                ans = (
+                    "Я ИИ-аналитик реестра биржевых сделок UZEX.\n"
+                    "• База данных: 500 000 сделок (03.01.2022 – 30.10.2026), 6 616 контрактов, "
+                    "14 392 участника (продавцы и покупатели), 120 брокеров, 14 регионов и 1 765 ежедневных курсов USD.\n"
+                    "• Что я умею: рассчитываю точные объёмы, суммы (в сумах и USD), средневзвешенные цены, рейтинги (Топ-N), "
+                    "динамику по годам/месяцам и проверяю отдельные сделки по номеру (например, №100001) с показом SQL-запроса."
+                )
+            return AgentResult(
+                question=question,
+                lang=lang,
+                answer_text=ans,
+                telegram_html=ans,
+                model_used="fast-path",
+                latency_s=dt,
+            )
+
+        # Fast path 0c: Thanks / Closing ("спасибо", "благодарю", "rahmat", "katta rahmat", "thanks")
+        if re.match(r"^\s*(спасибо(?:\s+большое)?|благодарю|rahmat|katta\s+rahmat|tashakkur|thanks|thank\s+you)\s*[!?.]*\s*$", q_low):
+            dt = time.perf_counter() - t0
+            ans = (
+                "Arzimaydi! UZEX birja bitimlari bo‘yicha yana savollaringiz bo‘lsa, marhamat."
+                if lang == "uz"
+                else "Пожалуйста! Если у вас есть ещё вопросы по биржевым сделкам UZEX — обращайтесь."
+            )
+            return AgentResult(
+                question=question,
+                lang=lang,
+                answer_text=ans,
+                telegram_html=ans,
+                model_used="fast-path",
+                latency_s=dt,
+            )
 
         # Fast path 1: Single deal lookup by number (e.g. "сделка №412334", "bitim 100001", "номер сделки 100005")
         m_deal = re.search(
@@ -338,12 +418,12 @@ class AgentOrchestrator:
     # ------------------------------------------------------------------
     # Main Question Answering Loop (<= 6 LLM calls)
     # ------------------------------------------------------------------
-    def answer(self, question: str) -> AgentResult:
+    def answer(self, question: str, history: list[dict[str, Any]] | None = None) -> AgentResult:
         t0 = time.perf_counter()
         lang = detect_language(question)
 
-        # 1. Check cache
-        cached = self._get_cached(question)
+        # 1. Check cache (context-aware when history is present)
+        cached = self._get_cached(question, history)
         if cached is not None:
             cached.latency_s = time.perf_counter() - t0
             return cached
@@ -351,7 +431,7 @@ class AgentOrchestrator:
         # 2. Check deterministic fast paths
         fast = self._try_fast_path(question, lang, t0)
         if fast is not None:
-            self._set_cached(question, fast)
+            self._set_cached(question, fast, history)
             return fast
 
         # 3. Bounded LLM tool-calling loop (max 6 calls, 70s budget)
@@ -361,11 +441,23 @@ class AgentOrchestrator:
             if lang == "ru"
             else "CRITICAL: Respond strictly in Uzbek (O‘zbek tilida javob bering, both `answer_text` and `filters_applied` MUST be in Uzbek, NOT Russian)."
         )
+
+        context_prefix = ""
+        if history:
+            ctx_lines = ["Previous conversation context (use this if the current question is a follow-up like 'in dollars?', 'what about 2024?', 'and how many tons?'):"]
+            for h_turn in history[-3:]:
+                hq = str(h_turn.get("question", "")).strip()
+                hsql = str(h_turn.get("sql", "")).strip()
+                hans = str(h_turn.get("answer", "")).strip()[:220]
+                if hq:
+                    ctx_lines.append(f"- Previous Q: {hq} | Previous SQL: {hsql} | Previous A: {hans}")
+            context_prefix = "\n".join(ctx_lines) + "\n\n"
+
         messages: list[dict[str, Any]] = [
             {"role": "system", "content": SYSTEM_PROMPT},
             {
                 "role": "user",
-                "content": f"User question ({lang.upper()}): {question}\n{lang_instruction}",
+                "content": f"{context_prefix}User question ({lang.upper()}): {question}\n{lang_instruction}",
             },
         ]
 
@@ -384,7 +476,7 @@ class AgentOrchestrator:
                 messages=messages,
                 tools=allow_tools,
                 temperature=0.0,
-                max_tokens=1200,
+                max_tokens=2048,
                 deadline_ts=deadline_ts,
             )
             model_used = f"{resp.provider}/{resp.model}"
@@ -541,7 +633,7 @@ class AgentOrchestrator:
                 latency_s=dt,
                 not_found=True,
             )
-            self._set_cached(question, res)
+            self._set_cached(question, res, history)
             return res
 
         # Verify every number in `answer_text` against `last_sql_rows`
@@ -620,5 +712,5 @@ class AgentOrchestrator:
             cached=False,
             verifier_passed=verified_ok,
         )
-        self._set_cached(question, result)
+        self._set_cached(question, result, history)
         return result

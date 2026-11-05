@@ -15,13 +15,15 @@ NUMBER_TOKEN_RE = re.compile(
 )
 
 # Common small numbers that may legitimately appear in phrasing ("за 1 тонну", "в 2 раза", "топ-5", "100%", "1-сорт")
-TRIVIAL_WHITELIST = {0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 10.0, 100.0}
+TRIVIAL_WHITELIST = {0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 100.0}
 
 
 def extract_numbers_from_text(text: str) -> list[float]:
     """Extract numeric values from a Russian or Uzbek text string."""
+    # Remove numbered list prefixes like "1. ", "2) " at start of line
+    cleaned = re.sub(r"(?:^|\n)\s*\d{1,2}[.)]\s+", "\n", text)
     # Remove broker codes (BK001), HS codes in parentheses, grades like АИ-92, М-100, ПФ-115, ЦЕМ II/А-Ш 32,5Н, Ø110мм
-    cleaned = re.sub(r"\b(?:BK|БК)\d{1,3}\b", " ", text, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\b(?:BK|БК)\d{1,3}\b", " ", cleaned, flags=re.IGNORECASE)
     cleaned = re.sub(r"\b(?:АИ|AI|М|M|Г|G|ПФ|PF|Вр|VR|PP|PE|HD|LL|LD|SG|КС|KS)[-\s]?\d+(?:[.,/]\d+)?", " ", cleaned, flags=re.IGNORECASE)
     cleaned = re.sub(r"\b(?:Ne|ЦЕМ|CEM)\s*[I123/А-ЯA-Z\-]*\s*\d+(?:[.,/]\d+)?", " ", cleaned, flags=re.IGNORECASE)
     cleaned = re.sub(r"Ø\s*\d+", " ", cleaned)
@@ -64,10 +66,13 @@ def collect_allowed_numbers(sql_rows: list[dict[str, Any]], row_count: int, ques
                 if math.isfinite(fval):
                     allowed.add(fval)
                     raw_vals.append(fval)
-                    # Also allow common unit conversions: thousands, millions, billions, trillions (e.g. "52,06 трлн", "304,55 млн")
+                    # Also allow common unit conversions: thousands, millions, billions, trillions (e.g. "52,06 трлн", "2,2 трлн")
                     for div in (1e3, 1e6, 1e9, 1e12):
                         if abs(fval) >= div * 0.1:
-                            allowed.add(fval / div)
+                            scaled = fval / div
+                            allowed.add(scaled)
+                            allowed.add(round(scaled, 1))
+                            allowed.add(round(scaled, 2))
             elif isinstance(val, str):
                 for snum in extract_numbers_from_text(val):
                     allowed.add(snum)
