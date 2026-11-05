@@ -1,0 +1,30 @@
+name: Deploy to Hetzner VPS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Pull & Restart uzex-bot.service
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH to Hetzner
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.HETZNER_HOST }}
+          username: ${{ secrets.HETZNER_USER || 'root' }}
+          port: ${{ secrets.HETZNER_PORT || 22 }}
+          key: ${{ secrets.HETZNER_SSH_KEY }}
+          password: ${{ secrets.HETZNER_PASSWORD }}
+          script: |
+            set -e
+            cd /root/uzex_agent
+            git fetch origin main
+            git reset --hard origin/main
+            .venv/bin/pip install -q -r requirements.txt
+            systemctl restart uzex-bot.service
+            systemctl is-active uzex-bot.service
+            echo "Deployed commit $(git rev-parse --short HEAD) successfully!"
