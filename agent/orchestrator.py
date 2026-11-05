@@ -164,6 +164,14 @@ class AgentOrchestrator:
                 )
                 """
             )
+            con.execute(
+                """
+                DELETE FROM answer_cache
+                WHERE payload_json LIKE '%```json%'
+                   OR payload_json LIKE '%"verifier_passed": false%'
+                """
+            )
+            con.commit()
 
     def _get_cached(self, question: str, history: list[dict[str, Any]] | None = None) -> AgentResult | None:
         if not self.use_cache:

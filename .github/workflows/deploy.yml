@@ -24,7 +24,6 @@ jobs:
             git fetch https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git main
             git reset --hard FETCH_HEAD
             .venv/bin/pip install -q -r requirements.txt
-            .venv/bin/python -X utf8 -c "import sqlite3, pathlib; p = pathlib.Path('logs/answer_cache.sqlite'); con = sqlite3.connect(p) if p.exists() else None; con and con.execute(\"DELETE FROM answer_cache WHERE payload_json LIKE '%`json%' OR payload_json LIKE '%\"verifier_passed\": false%'\") and con.commit()"
             systemctl restart uzex-bot.service
             systemctl is-active uzex-bot.service
             echo "Deployed commit $(git rev-parse --short HEAD) successfully!"
