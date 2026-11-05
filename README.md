@@ -1,6 +1,7 @@
 # UZEX AI Hackathon 2026 — AI Data Analyst Agent (`@uzex_selection_agent_bot`)
 
 **Telegram Bot:** [@uzex_selection_agent_bot](https://t.me/uzex_selection_agent_bot)  
+**Live Web UI & Analytics Console:** [https://uzex.shermatov.uz/](https://uzex.shermatov.uz/)  
 **Detailed Architecture & Evaluation Report:** [SOLUTION.md](SOLUTION.md)
 
 ИИ-агент аналитики биржевых сделок **Узбекской республиканской товарно-сырьевой биржи (UZEX)** для отборочного этапа **UZEX AI Hackathon 2026**. Отвечает на вопросы на **русском** и **узбекском** языках по реестру из **500 000 биржевых сделок** (`03.01.2022 – 30.10.2026`), демонстрируя ход расчёта, применённые фильтры, примеры номеров сделок и выполненный SQL-запрос.

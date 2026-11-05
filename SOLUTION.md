@@ -1,7 +1,8 @@
 # UZEX AI Hackathon 2026 — Solution Description (`SOLUTION.md`)
 
-**Bot Handle:** `@uzex_selection_agent_bot`  
-**Web UI & API:** `http://localhost:8080` (`web/app.py` + `web/index.html`, styled after `hackathon.uzex.uz/saralash/`)  
+**Telegram Bot:** [@uzex_selection_agent_bot](https://t.me/uzex_selection_agent_bot) (`@uzex_selection_agent_bot`)  
+**Live Web UI & API:** [https://uzex.shermatov.uz/](https://uzex.shermatov.uz/) (`web/app.py` + `web/index.html`, styled after `hackathon.uzex.uz/saralash/`)  
+**GitHub Repository:** [https://github.com/kamolbekb/uzex_agent](https://github.com/kamolbekb/uzex_agent)  
 **Stack:** Python 3.12 · DuckDB · aiogram 3 · aiohttp · OpenAI SDK (Gemini & Groq compatible endpoints) · RapidFuzz
 
 ---

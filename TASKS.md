@@ -47,7 +47,7 @@ Legend: [x] done · [/] in progress · [ ] todo. Phases follow PLAN.md section 9
 - [x] prompt tuning loop
 
 ## Phase 8: Deploy + submit
-- [/] Deploy to Hostinger (systemd service, DB built on server or uploaded)
-- [x] SOLUTION.md (architecture, router, verification method, eval results)
-- [ ] Submit form (early version ~14:00 Nov 5, final before 18:00)
-- [ ] Smoke test on Nov 5 only (save quota)
+- [x] Deploy to Hetzner server (`https://uzex.shermatov.uz/` + `@uzex_selection_agent_bot` via systemd `uzex-bot.service`, 7/7 LLM models verified, DB uploaded)
+- [x] SOLUTION.md & README.md (architecture, router, verification method, eval results, live URLs)
+- [/] Submit form (early version ~14:30 Nov 5, final before 18:00)
+- [x] Smoke test on Nov 5 only (save quota)
