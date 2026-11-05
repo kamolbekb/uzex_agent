@@ -28,3 +28,4 @@ jobs:
             systemctl restart uzex-bot.service
             systemctl is-active uzex-bot.service
             echo "Deployed commit $(git rev-parse --short HEAD) successfully!"
+
