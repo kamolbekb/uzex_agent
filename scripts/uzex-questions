@@ -13,3 +13,4 @@ elif [ "${1:-}" = "-v" ] || [ "${1:-}" = "--verbose" ]; then
 else
     tail -n "${1:-50}" "$LOG_FILE"
 fi
+

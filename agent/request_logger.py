@@ -67,3 +67,4 @@ def log_incoming_question(
             jf.write(json.dumps(record, ensure_ascii=False) + "\n")
     except Exception:
         pass
+
