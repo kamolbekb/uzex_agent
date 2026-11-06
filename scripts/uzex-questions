@@ -6,11 +6,17 @@ JSONL_FILE="/root/uzex_agent/logs/questions.jsonl"
 mkdir -p /root/uzex_agent/logs
 touch "$LOG_FILE" "$JSONL_FILE"
 
-if [ "${1:-}" = "-f" ] || [ "${1:-}" = "--follow" ]; then
-    tail -n 50 -f "$LOG_FILE"
-elif [ "${1:-}" = "-v" ] || [ "${1:-}" = "--verbose" ]; then
-    tail -n 30 -f "$JSONL_FILE"
-else
-    tail -n "${1:-50}" "$LOG_FILE"
+echo "=== UZEX AI Live Request Stream (https://uzex.shermatov.uz | @uzex_selection_agent_bot) ==="
+
+if [ ! -s "$LOG_FILE" ]; then
+    echo "[Notice] Log is currently empty. Waiting for incoming requests..."
 fi
 
+if [ "${1:-}" = "-v" ] || [ "${1:-}" = "--verbose" ]; then
+    tail -n 30 -f "$JSONL_FILE"
+elif [ "${1:-}" = "-f" ] || [ "${1:-}" = "--follow" ] || [ -z "${1:-}" ]; then
+    # Default to live follow mode so running without args keeps listening
+    tail -n 50 -f "$LOG_FILE"
+else
+    tail -n "$1" "$LOG_FILE"
+fi
