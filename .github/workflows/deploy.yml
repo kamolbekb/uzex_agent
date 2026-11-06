@@ -24,6 +24,8 @@ jobs:
             git fetch https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git main
             git reset --hard FETCH_HEAD
             .venv/bin/pip install -q -r requirements.txt
+            chmod +x scripts/uzex-questions
+            cp scripts/uzex-questions /usr/local/bin/uzex-questions
             systemctl restart uzex-bot.service
             systemctl is-active uzex-bot.service
             echo "Deployed commit $(git rev-parse --short HEAD) successfully!"

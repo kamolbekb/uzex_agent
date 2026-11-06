@@ -29,6 +29,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from agent.formatter import detect_language  # noqa: E402
 from agent.orchestrator import AgentOrchestrator  # noqa: E402
+from agent.request_logger import log_incoming_question  # noqa: E402
 from web.app import start_web_server  # noqa: E402
 
 
@@ -138,6 +139,25 @@ async def _process_question(target_msg: Message, question: str, user_id: int) ->
         async with GLOBAL_SEMAPHORE:
             orch = get_orchestrator()
             result = await asyncio.to_thread(orch.answer, question, user_hist)
+
+        tg_label = (
+            f"tg:@{target_msg.from_user.username}"
+            if (target_msg.from_user and target_msg.from_user.username)
+            else f"tg:{user_id}"
+        )
+        log_incoming_question(
+            source_ip_or_user=tg_label,
+            status_code=200,
+            latency_s=result.latency_s,
+            question=question,
+            is_followup=bool(user_hist),
+            cached=result.cached,
+            not_found=result.not_found,
+            model_used=result.model_used,
+            answer_text=result.answer_text,
+            sql=result.sql,
+            deals_count=result.deals_count,
+        )
 
         if result.sql and not result.not_found:
             hist_list = USER_HISTORY.setdefault(user_id, [])

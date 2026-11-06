@@ -20,6 +20,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from agent.formatter import infer_filters_from_sql  # noqa: E402
 from agent.orchestrator import AgentOrchestrator  # noqa: E402
+from agent.request_logger import log_incoming_question  # noqa: E402
 
 logger = logging.getLogger("uzex_web")
 INDEX_HTML_PATH = Path(__file__).resolve().parent / "index.html"
@@ -90,10 +91,31 @@ def create_web_app(
         if isinstance(raw_history, list):
             history = [h for h in raw_history[-3:] if isinstance(h, dict)]
 
+        client_ip = (
+            request.headers.get("CF-Connecting-IP")
+            or request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
+            or request.remote
+            or "unknown"
+        )
+
         try:
             async with sem:
                 orch = get_orchestrator_fn()
                 result = await asyncio.to_thread(orch.answer, question, history)
+
+            log_incoming_question(
+                source_ip_or_user=client_ip,
+                status_code=200,
+                latency_s=result.latency_s,
+                question=question,
+                is_followup=bool(history),
+                cached=result.cached,
+                not_found=result.not_found,
+                model_used=result.model_used,
+                answer_text=result.answer_text,
+                sql=result.sql,
+                deals_count=result.deals_count,
+            )
 
             safe_rows = _json_safe(result.sql_rows[:50]) if result.sql_rows else []
             columns = list(safe_rows[0].keys()) if safe_rows else []
@@ -123,6 +145,13 @@ def create_web_app(
             )
         except Exception as e:
             logger.exception("Web API error answering %r: %s", question, e)
+            log_incoming_question(
+                source_ip_or_user=client_ip,
+                status_code=500,
+                latency_s=0.0,
+                question=question,
+                is_followup=bool(history),
+            )
             return web.json_response(
                 {"error": f"Internal error processing question: {e}"}, status=500
             )

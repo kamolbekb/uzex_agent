@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# CLI utility to view or follow incoming UZEX AI Agent questions (Web + Telegram)
+LOG_FILE="/root/uzex_agent/logs/questions.log"
+JSONL_FILE="/root/uzex_agent/logs/questions.jsonl"
+
+mkdir -p /root/uzex_agent/logs
+touch "$LOG_FILE" "$JSONL_FILE"
+
+if [ "${1:-}" = "-f" ] || [ "${1:-}" = "--follow" ]; then
+    tail -n 50 -f "$LOG_FILE"
+elif [ "${1:-}" = "-v" ] || [ "${1:-}" = "--verbose" ]; then
+    tail -n 30 -f "$JSONL_FILE"
+else
+    tail -n "${1:-50}" "$LOG_FILE"
+fi
